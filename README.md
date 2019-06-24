@@ -8,8 +8,10 @@
 + 增加一些常用的模板文件
 
 ----
-工作流配置界面：[](https://github.com/mryx00/imgs/blob/master/liucheng.png "工作流配置界面")
-[](https://github.com/mryx00/imgs/blob/master/liucheng2.png "工作流配置界面")
-代码生成配置界面：[](https://github.com/mryx00/imgs/shengcheng.png "代码生成配置")
+工作流配置界面1：![](https://github.com/mryx00/imgs/blob/maste：r/liucheng.png "工作流配置界面")
+工作流配置界面2![](https://github.com/mryx00/imgs/blob/master/liucheng2.png "工作流配置界面")
+代码生成配置界面：![](https://github.com/mryx00/imgs/shengcheng.png "代码生成配置")
 
-其他界面：
+角色界面：![](https://github.com/mryx00/imgs/blob/maste：r/juese.png "角色界面")
+部门界面：![](https://github.com/mryx00/imgs/blob/maste：r/bumen.png "部门界面")
+菜单界面：![](https://github.com/mryx00/imgs/blob/maste：r/caidan.png "菜单界面")
