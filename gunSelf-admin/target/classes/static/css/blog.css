@@ -1,0 +1,89 @@
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+.fixed-left{
+    position: fixed;
+    width: 230px;
+}
+
+.frostedglass{
+    width: 100px;
+    height: 100px;
+    font-size:16px;
+    /*计算值为 height - width*top*2*/
+    line-height: 70px;
+    z-index:1;
+    border-radius:50%;
+    position:relative;
+    overflow: hidden;
+    text-align:center;
+    background: hsl(20,40%,90%) fixed;
+    background-image:linear-gradient(90deg,#fb3 11px,transparent 0),
+    linear-gradient(90deg,#ab4 23px,transparent 0),
+    linear-gradient(90deg,#655 41px,transparent 0);
+    background-size: 41px 100%,61px 100%,83px 100%;
+}
+.frostedglass-inner:before{
+    content:'';
+    position:absolute;
+    top: 0;right: 0;left: 0;bottom: 0;
+    filter:blur(5px);
+    background: hsl(20,40%,90%) fixed;
+    background-image:linear-gradient(90deg,#fb3 11px,transparent 0),
+    linear-gradient(90deg,#ab4 23px,transparent 0),
+    linear-gradient(90deg,#655 41px,transparent 0);
+    background-size: 41px 100%,61px 100%,83px 100%;
+    z-index:-1;
+}
+.frostedglass-inner{
+    position:absolute;
+    top: 15%;right: 15%;left: 15%;bottom: 15%;
+    background:hsla(0,0%,100%,.3);
+}
+.maoboli{
+    padding: 20px 20px;
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -200px;
+    /*border: 1px solid #00F;*/
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 100
+}
+
+.maoboli::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    -ms-filter: blur(20px);
+    -o-filter: blur(20px);
+    filter: blur(20px);
+    z-index: -3;
+    margin: -3px;
+    background-image: url(/static/img/bgImg.jpg);
+    /* background-color: #f5f5f5; */
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+.container-blog{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-image: url(/static/img/bgImg.jpg);
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+}

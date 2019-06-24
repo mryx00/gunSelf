@@ -1,0 +1,29 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="blogTagInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                                   <#input id="id" name="主键" value="${item.id}" readonly="readonly"/>
+                              <#input id="tagName" name="标签名" underline="true"   value="${item.tagName}" />
+                               <#input id="count" name="计数" underline="true"   value="${item.count}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="creatTime" name="创建时间" underline="true" script="laydate.render({elem: '#creatTime',type: 'datetime',trigger: 'click'});" dateTimeformat="yyyy-MM-dd HH:mm:ss"    value="${item.creatTime}" />
+                               <#input id="account" name="用户" underline="true"   value="${item.account}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogTagInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogTagInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogTag/blogTag_info.js"></script>
+@}

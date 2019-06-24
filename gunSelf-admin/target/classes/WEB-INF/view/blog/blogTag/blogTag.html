@@ -1,0 +1,42 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                博客标签管理
+            </div>
+            <div class="layui-card-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                             <form class="layui-form layui-form-pane" action="">
+                                <div class="col-sm-3">
+                                    <#NameCon id="condition" name="名称" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <#button name="搜索" icon="fa-search" clickFun="BlogTag.search()"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="hidden-xs" id="BlogTagTableToolbar" role="group">
+                            @if(shiro.hasPermission("/blogTag/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="BlogTag.openAddBlogTag()"/>
+                            @}
+                            @if(shiro.hasPermission("/blogTag/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="BlogTag.openBlogTagDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/blogTag/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="BlogTag.delete()" space="true"/>
+                            @}
+                            <#button name="导出" icon="fa-arrow-circle-up" clickFun="BlogTag.export()" space="true"/>
+                            <#button name="导入" icon="fa-arrow-circle-down" id="upload" space="true"/>
+                        </div>
+                        <#table id="BlogTagTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogTag/blogTag.js"></script>
+@}

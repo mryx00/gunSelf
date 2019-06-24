@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.EmpinfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.Empinfo">
+        <id column="empNo" property="empNo" />
+        <result column="empName" property="empName" />
+        <result column="empSex" property="empSex" />
+        <result column="empAge" property="empAge" />
+        <result column="empDate" property="empDate" />
+        <result column="deptId" property="deptId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        empNo, empName, empSex, empAge, empDate, deptId
+    </sql>
+
+</mapper>

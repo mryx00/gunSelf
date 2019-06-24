@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogTopMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogTop">
+        <id column="id" property="id" />
+        <result column="articleId" property="articleId" />
+        <result column="tpPersonId" property="tpPersonId" />
+        <result column="tpDate" property="tpDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, articleId, tpPersonId, tpDate
+    </sql>
+
+    <select id="selectTopList" resultType="com.stylefeng.gunSelf.modular.blog.vo.BlogTopInfo">
+        SELECT
+            blog_top.id,
+            articleId,
+            tpPersonId,
+            tpDate,
+            caption,
+            account
+        FROM
+            blog_top
+        LEFT JOIN blog_content ON blog_top.articleId = blog_content.id
+        LEFT JOIN sys_user ON blog_top.tpPersonId = sys_user.id
+        <if test="account!=null and account!=''">
+          WHERE blog_content.auther=#{account}
+        </if>
+        <if test="title!=null and title!=''">
+            and blog_content.caption like CONCAT('%',#{title},'%')
+        </if>
+        ORDER BY
+        blog_top.tpDate DESC
+    </select>
+
+
+</mapper>

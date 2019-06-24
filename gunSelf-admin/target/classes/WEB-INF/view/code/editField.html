@@ -1,0 +1,70 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+            <form action="/code/test" method="post" id="form1">
+            <div class="row">
+                   <div class="col-sm-3">
+                       <span>字段名称</span>
+                   </div>
+                    <div class="col-sm-3">
+                        <span>字段类型</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>样式</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>验证规则</span>
+                    </div>
+                    <input type="hidden" name="tableName" value="${tableName}">
+                    @for(var i=0;i<fields.~size;i++){
+                    @if(!fields[i].keyIdentityFlag){
+                    <div class="col-sm-3">
+                        <span>${fields[i].comment}(${fields[i].propertyName})</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>${fields[i].type}</span>
+                    </div>
+                    <input type="hidden" name="tableFields[${i}].comment" value="${fields[i].comment}">
+                    <input type="hidden" name="tableFields[${i}].propertyName" value="${fields[i].propertyName}">
+                    <input type="hidden" name="tableFields[${i}].type" value="${fields[i].type}">
+                    <div class="col-sm-3">
+                        <select name="tableFields[${i}].style">
+                            <option value="&lt;#input id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot; underline=&quot;true&quot;/&gt;">input</option>
+                            <option value="&lt;#select id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot; dictName=&quot;${fields[i].comment}&quot; underline=&quot;true&quot;/&gt;">select(字典)</option>
+                            <option value="&lt;#select id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot;  underline=&quot;true&quot;/&gt;">select(普通)</option>
+                            <option value="&lt;#textarea id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot; underline=&quot;true&quot;/&gt;">textarea</option>
+                            <option value="&lt;#input id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot; underline=&quot;true&quot; script=&quot;laydate.render({elem: '#${fields[i].propertyName}'},trigger:'click');&quot; /&gt;">日期</option>
+                            <option value="&lt;#input id=&quot;${fields[i].propertyName}&quot; name=&quot;${fields[i].comment}&quot; underline=&quot;true&quot; script=&quot;laydate.render({elem: '#${fields[i].propertyName}',type: 'datetime',trigger: 'click'});&quot; dateTimeformat=&quot;yyyy-MM-dd HH:mm:ss&quot; /&gt;">日期(包含时间)</option>
+                            <option value="">图片</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select name="tableFields[${i}].valid">
+                            <option value="notEmpty: {message:&apos;${fields[i].comment}不能为空&apos;}">非空</option>
+                            <option value="notEmpty: {message: &apos;请输入手机号&apos;},phone:{country:&apos;CN&apos;,message:&apos;请输入正确的手机号&apos;}">手机号</option>
+                            <option value="notEmpty: {message: &apos;请输入邮箱&apos;},emailAddress: {message: &apos;请输入正确的邮件地址&apos;}">邮箱</option>
+                            <option selected value="">无</option>
+                        </select>
+                    </div>
+
+                    <hr>
+                    @ }
+                    @}
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="EditFieldDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="EditFieldDlg.close()"/>
+                </div>
+            </div>
+            </form>
+            <script src="${ctxPath}/static/modular/system/code/editField_info.js"></script>
+
+        </div>
+
+    </div>
+</div>
+
+@}

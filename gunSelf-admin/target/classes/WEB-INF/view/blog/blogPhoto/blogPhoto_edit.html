@@ -1,0 +1,53 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="blogPhotoInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                               <#input id="id" name="主键" value="${item.id}" readonly="readonly"/>
+                               <#input id="photoName" name="相片名" underline="true"   value="${item.photoName}" />
+                               <#input id="photoAddr" name="相片地址" underline="true"   value="${item.photoAddr}" readonly="readonly" />
+                    <div >
+                        <img  src="/pictures/${item.photoAddr}" style="width: 69px;margin-bottom: 10px;">
+                    </div>
+                    <button type="button" class="layui-btn" id="upImg">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                               <#input id="order" name="排序" underline="true"   value="${item.order}" />
+                               <#input id="account" name="用户" underline="true"   value="${item.account}" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogPhotoInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogPhotoInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogPhoto/blogPhoto_info.js"></script>
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#upImg' //绑定元素
+            ,url: '/mgr/upload2/' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+                console.log(res);
+                $("#photoAddr").val(res.pictureName);
+                $("img").attr("src","/pictures/"+res.pictureName);
+            }
+            ,error: function(res){
+                //请求异常回调
+                console.log(res);
+            }
+        });
+    });
+</script>
+@}

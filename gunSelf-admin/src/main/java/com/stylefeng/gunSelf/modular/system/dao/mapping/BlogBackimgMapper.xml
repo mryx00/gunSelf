@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogBackimgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogBackimg">
+        <id column="id" property="id" />
+        <result column="imgName" property="imgName" />
+        <result column="imgAddr" property="imgAddr" />
+        <result column="isUse" property="isUse" />
+        <result column="belong" property="belong" />
+        <result column="blogAccout" property="blogAccout" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, imgName, imgAddr, isUse, belong, blogAccout
+    </sql>
+
+</mapper>

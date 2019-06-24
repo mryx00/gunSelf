@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogTagMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogTag">
+        <id column="id" property="id" />
+        <result column="tagName" property="tagName" />
+        <result column="count" property="count" />
+        <result column="creatTime" property="creatTime" />
+        <result column="account" property="account" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tagName, count, creatTime, account
+    </sql>
+    <select id="selectList2" resultType="com.stylefeng.gunSelf.modular.system.model.BlogTag">
+        SELECT
+        tagId,tagName,blogId,count( tagId)  as `count`
+
+        FROM
+            blogtag_rela
+        LEFT JOIN 	blog_tag ON blog_tag.id = blogtag_rela.tagId
+        <if test="account!=null||account!=''">
+            where account = #{account}
+        </if>
+        GROUP BY tagId
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="blogTopicInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="topicName" name="专题名称" underline="true"/>
+                             <!--<#input id="createTime" name="创建时间" underline="true" script="laydate.render({elem: '#createTime',type: 'datetime',trigger: 'click'});" dateTimeformat="yyyy-MM-dd HH:mm:ss" />-->
+                </div>
+
+                <div class="col-sm-6">
+                            <!--<#input id="account" name="账号" underline="true"/>-->
+                            <#input id="order" name="排序" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" submit="true" id="ensure" icon="fa-check" clickFun="BlogTopicInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogTopicInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogTopic/blogTopic_info.js"></script>
+@}

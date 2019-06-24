@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>管理系统 - 主页</title>
+    <link href="${ctxPath}/static/css/layui.css" rel="stylesheet">
+    <style>
+        /**右键菜单*/
+        .rightmenu {
+            position: absolute;
+            width: 110px;
+            z-index: 9999;
+            display: none;
+            background-color: #fff;
+            padding: 2px;
+            color: #333;
+            border: 1px solid #eee;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .rightmenu li {
+            text-align: center;
+            display: block;
+            height: 30px;
+            line-height: 32px;
+        }
+
+        .rightmenu li:hover {
+            background-color: #666;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <ul class="rightmenu">
+        <li data-type="closethis">关闭当前</li>
+        <li data-type="closeall">关闭所有</li>
+        <li data-type="closeothers">关闭非当前</li>
+        <li data-type="closeleft">关闭左侧所有</li>
+        <li data-type="closeright">关闭右侧所有</li>
+        <li data-type="refresh">刷新当前页</li>
+        <li data-type="cancel"><i class="layui-icon layui-icon-yinshenim"></i>取消</li>
+    </ul>
+
+  @include("/common/_toplayui.html"){}
+  <!--左侧导航开始-->
+  @include("/common/_tablayui.html"){}
+  <!--左侧导航结束-->
+
+  <!--右侧部分开始-->
+  @include("/common/_rightlayui.html"){}
+  <!--右侧部分结束-->
+
+  <!--右侧边栏开始-->
+
+  <!--右侧边栏结束-->
+
+
+
+
+</div>
+<script src="${ctxPath}/static/layui.all.js"></script>
+<script>
+//JavaScript代码区域
+var $ = layui.jquery;
+var layer = layui.layer;
+var element = layui.element;
+var util = layui.util;
+var table = layui.table;
+
+/**
+ * 注册tab右键菜单点击事件
+ */
+$(".rightmenu li").click(function () {
+    var currentActiveTabID = $("li[class='layui-this']").attr('lay-id');// 获取当前激活的选项卡ID
+    var tabtitle = $(".layui-tab-title li");
+    var allTabIDArr = [];
+    $.each(tabtitle, function (i) {
+        allTabIDArr[i] = $(this).attr("lay-id");
+    })
+    allTabIDArr.splice(0,1);
+
+    switch ($(this).attr("data-type")) {
+        case "closethis"://关闭当前，如果开始了tab可关闭，实际意义不大
+            tabDelete("demoTab",currentActiveTabID);
+            break;
+        case "closeall"://关闭所有
+            tabDeleteAll("demoTab",allTabIDArr);
+            break;
+        case "closeothers"://关闭非当前
+            $.each(allTabIDArr, function (i) {
+                var tmpTabID = allTabIDArr[i];
+                if (currentActiveTabID != tmpTabID)
+                    tabDelete("demoTab",tmpTabID);
+            })
+            break;
+        case "closeleft"://关闭左侧全部
+            var index = allTabIDArr.indexOf(currentActiveTabID);
+            tabDeleteAll("demoTab",allTabIDArr.slice(0, index));
+            break;
+        case "closeright"://关闭右侧全部
+            var index = allTabIDArr.indexOf(currentActiveTabID);
+            tabDeleteAll("demoTab",allTabIDArr.slice(index + 1));
+            break;
+        case "refresh":
+            // 重新加载iFrame，实现更新。注意：如果你不是使用的iFrame则无效，具体刷新实现自行处理                          //document.getElementById(currentActiveTabID).contentWindow.location.reload(true);//这种方式也可以，下面这个也可以
+            refreshiFrame();
+            break;
+        default:
+            $('.rightmenu').hide();
+
+    }
+    $('.rightmenu').hide();
+})
+
+
+function refreshiFrame() {
+    var $curFrame = $('iframe:visible');
+    $curFrame.attr("src",$curFrame.attr("src"));
+    return false;
+}
+
+tabDelete = function (filter,id) {
+    console.log("删除的TabID："+id)
+    $(".rightmenu li").attr('lay-id' ,id);
+    element.tabDelete(filter, id);//删除
+}
+tabDeleteAll = function (filter,ids) {
+    $.each(ids, function (i, item) {
+        $(".rightmenu li").attr('lay-id' ,item);
+        element.tabDelete(filter, item);
+    })
+}
+// 点击空白处关闭右键弹窗
+$(document).click(function () {
+    $('.rightmenu').hide();
+})
+/**
+ * 绑定右键菜单
+ * constructor
+ */
+function CustomRightClick (_this, tab_url) {
+
+    // element.on('tabDelete('+_this._opt.lay_filter+')', function(data){
+    //     var tab_id=$(_this.parentNode).attr('lay-id');
+    //     delete _this._tabs[tab_id];
+    // });
+        $('.layui-tab-title li').on('contextmenu', function (e) {
+            var popupmenu = $(".rightmenu");
+            l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX;
+            t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
+            popupmenu.css({left: l, top: t}).show();
+            return false;
+        });
+    //屏蔽Tab右键菜单
+    $('.layui-tab-title li').on('contextmenu', function () {
+        return false;
+    })
+    $('.layui-tab-title,.layui-tab-title li').click(function () {
+        $('.rightmenu').hide();
+    });
+    $('.layui-tab-title li').on('contextmenu', function (e) {
+        console.log(e);
+        var popupmenu = $(".rightmenu");
+        l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX;
+        t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
+        popupmenu.css({left: l, top: t}).show();
+        return false;
+    });
+}
+</script>
+<script src="${ctxPath}/static/js/layTabPlus.js"></script>
+<script>
+    layTabPlus.init({lay_filter: 'demoTab'});
+</script>
+
+</body>
+<style>
+    .sysNotice .layui-table {
+        margin-top: 0;
+        border-left: 5px solid #e2e2e2;
+    }
+
+    .layui-elem-quote.title {
+        padding: 10px 15px;
+        margin-bottom: 0;
+    }
+
+    .sysNotice {
+        width: 75%;
+    }
+    .code{
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 2px;
+        padding: 4px 2px 0;
+    }
+</style>
+
+</html>

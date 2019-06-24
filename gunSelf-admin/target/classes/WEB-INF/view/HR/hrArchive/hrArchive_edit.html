@@ -1,0 +1,68 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="hrArchiveInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                                   <#input id="archiveId" name="档案ID" value="${item.archiveId}" readonly="readonly"/>
+                              <#input id="schemaId" name="薪资方案ID" underline="true"   value="${item.schemaId}" />
+                              <#input id="staffId" name="对应账号" underline="true"   value="${item.staffId}" />
+                              <#input id="employeeNo" name="工号" underline="true"   value="${item.employeeNo}" />
+                              <#input id="name" name="姓名" underline="true"   value="${item.name}" />
+                              <#select id="sex" name="性别" dictName="性别" underline="true"   value="${item.sex}" />
+                              <#input id="departmentId" name="部门" underline="true"   value="${item.departmentId}" />
+                              <#input id="position" name="职务" underline="true"   value="${item.position}" />
+                              <#input id="positionRank" name="职级" underline="true"   value="${item.positionRank}" />
+                              <#input id="positionGrade" name="职等" underline="true"   value="${item.positionGrade}" />
+                              <#input id="executiveLevel" name="行政级别" underline="true"   value="${item.executiveLevel}" />
+                              <#input id="birthDate" name="出生日期" underline="true" script="laydate.render({elem: '#birthDate'});"    value="${item.birthDate}" />
+                              <#input id="age" name="年龄" underline="true"   value="${item.age}" />
+                              <#input id="idCard" name="身份证号" underline="true"   value="${item.idCard}" />
+                              <#input id="origo" name="籍贯" underline="true"   value="${item.origo}" />
+                              <#input id="residenceRegistration" name="户口所在" underline="true"   value="${item.residenceRegistration}" />
+                              <#input id="nationality" name="民族" underline="true"   value="${item.nationality}" />
+                              <#input id="politicalStatus" name="政治面貌" underline="true"   value="${item.politicalStatus}" />
+                              <#input id="marriageStatus" name="婚姻状况" underline="true"   value="${item.marriageStatus}" />
+                              <#input id="graduateSchool" name="毕业院校" underline="true"   value="${item.graduateSchool}" />
+                              <#input id="idcardExpiryDate" name="身份证到期" underline="true"   value="${item.idcardExpiryDate}" />
+                               <#input id="specialty" name="专业" underline="true"   value="${item.specialty}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="eduQualification" name="学历" underline="true"   value="${item.eduQualification}" />
+                               <#input id="eduDegree" name="学位" underline="true"   value="${item.eduDegree}" />
+                               <#input id="foreignLanguageLevel" name="外语水平" underline="true"   value="${item.foreignLanguageLevel}" />
+                               <#input id="email" name="电子邮箱" underline="true"   value="${item.email}" />
+                               <#input id="homeAddress" name="家庭地址" underline="true"   value="${item.homeAddress}" />
+                               <#input id="mobile" name="移动电话" underline="true"   value="${item.mobile}" />
+                               <#input id="employmentType" name="用工类型" underline="true"   value="${item.employmentType}" />
+                               <#input id="entryDate" name="入职时间" underline="true" script="laydate.render({elem: '#entryDate'});"    value="${item.entryDate}" />
+                               <#input id="regularDate" name="转正日期" underline="true" script="laydate.render({elem: '#regularDate'});"    value="${item.regularDate}" />
+                               <#input id="eduExperience" name="教育经历" underline="true"   value="${item.eduExperience}" />
+                               <#input id="resume" name="个人简历" underline="true"   value="${item.resume}" />
+                               <#input id="archiveStatus" name="档案状态" underline="true"   value="${item.archiveStatus}" />
+                               <#input id="leaveType" name="离职类别" underline="true"   value="${item.leaveType}" />
+                               <#input id="leaveDate" name="离职日期" underline="true" script="laydate.render({elem: '#leaveDate'});"    value="${item.leaveDate}" />
+                               <#input id="leaveReason" name="离职原因" underline="true"   value="${item.leaveReason}" />
+                               <#input id="isDel" name="是否删除" underline="true"   value="${item.isDel}" />
+                               <#input id="delTime" name="删除时间" underline="true"   value="${item.delTime}" />
+                               <#input id="delOperator" name="删除人" underline="true"   value="${item.delOperator}" />
+                               <#input id="operator" name="操作人" underline="true"   value="${item.operator}" />
+                               <#input id="operateTime" name="操作日期" underline="true"   value="${item.operateTime}" />
+                               <#input id="domainId" name="单位ID" underline="true"   value="${item.domainId}" />
+                               <#textarea id="descCnt" name="备注" underline="true"   value="${item.descCnt}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="HrArchiveInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="HrArchiveInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/HR/hrArchive/hrArchive_info.js"></script>
+@}

@@ -1,0 +1,37 @@
+<div class="layui-header">
+    <div class="layui-logo">fadpSpring</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <!--<ul class="layui-nav layui-layout-left">-->
+        <!--<li class="layui-nav-item"><a href="">控制台</a></li>-->
+        <!--<li class="layui-nav-item"><a href="">商品管理</a></li>-->
+        <!--<li class="layui-nav-item"><a href="">用户</a></li>-->
+        <!--<li class="layui-nav-item">-->
+            <!--<a href="javascript:;">其它系统</a>-->
+            <!--<dl class="layui-nav-child">-->
+                <!--<dd><a href="">邮件管理</a></dd>-->
+                <!--<dd><a href="">消息管理</a></dd>-->
+                <!--<dd><a href="">授权管理</a></dd>-->
+            <!--</dl>-->
+        <!--</li>-->
+    <!--</ul>-->
+    <ul class="layui-nav  layui-layout-right" lay-filter="test">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img
+                @if(isEmpty(avatar)){
+                src="${ctxPath}/static/img/undefined.jpg"
+                @}else{
+                src="${ctxPath}/pictures/${avatar}"
+                @}
+                class="layui-nav-img">
+                ${shiro.getUser().name}
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a class="layTabPlus" tab_url="${ctxPath}/mgr/user_info" href="javascript:;">基本资料</a></dd>
+                <dd><a class="layTabPlus" tab_url="${ctxPath}/mgr/user_chpwd" href="javascript:;">修改密码</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="${ctxPath}/blog">博客页面</a></li>
+        <li class="layui-nav-item"><a href="${ctxPath}/logout">安全退出</a></li>
+    </ul>
+</div>

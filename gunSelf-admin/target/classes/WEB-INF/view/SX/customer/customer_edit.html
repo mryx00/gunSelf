@@ -1,0 +1,31 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="customerInfoForm">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="row">
+                    <div class="col-sm-6 b-r">
+                                   <#input id="customerNo" name="编号" value="${item.customerNo}" readonly="readonly"/>
+                                  <#input id="customerName" name="客户姓名" underline="true"   value="${item.customerName}" />
+                                   <#input id="contactInformation" name="联系方式" underline="true"   value="${item.contactInformation}" />
+                    </div>
+                    <div class="col-sm-6">
+                                   <#input id="address" name="客户地址" underline="true"   value="${item.address}" />
+                                   <#select id="belongUser" name="所属员工"  underline="true"   value="${item.belongUser}" selectVal="${users}" selectKey="name" selectValue="id" />
+                                   <#input id="isDelete" name="是否删除" underline="true"   value="${item.isDelete}" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="CustomerInfoDlg.editSubmit()"/>
+                        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="CustomerInfoDlg.close()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/customer/customer_info.js"></script>
+@}

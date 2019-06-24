@@ -1,0 +1,33 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="productInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                              <#input id="productNo" name="产品编号" value="${item.productNo}" readonly="readonly"/>
+                              <#input id="productName" name="产品名称" underline="true"   value="${item.productName}" />
+                              <#select id="productPlace" name="产地" dictName="产地" underline="true"   value="${item.productPlace}" />
+                              <#select id="productSpecs" name="产品规格" dictName="产品规格" underline="true"   value="${item.productSpecs}" />
+                              <#input id="productPrice" name="价格(元)" underline="true"   value="${item.productPrice}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#select id="productYear" name="产品年份" dictName="产品年份" underline="true"   value="${item.productYear}" />
+                               <#input id="stockNumber" name="库存数" underline="true"   value="${item.stockNumber}" />
+                               <#select id="categoryNo" name="产品类别"  underline="true"    value="${item.categoryNo}"  selectVal="${productCategories}" selectKey="categoryName" selectValue="categoryNo" />
+                               <#input id="isDelete" name="是否下架" underline="true"   value="${item.isDelete}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ProductInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ProductInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/product/product_info.js"></script>
+@}

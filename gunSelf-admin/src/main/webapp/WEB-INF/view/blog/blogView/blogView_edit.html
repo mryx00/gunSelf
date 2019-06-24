@@ -1,0 +1,28 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="blogViewInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                                   <#input id="id" name="主键" value="${item.id}" readonly="readonly"/>
+                               <#input id="viewPersonId" name="浏览人id" underline="true"   value="${item.viewPersonId}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="articleId" name="文章Id" underline="true"   value="${item.articleId}" />
+                               <#input id="viewDate" name="查看时间" underline="true" script="laydate.render({elem: '#viewDate',type: 'datetime'});" dateTimeformat="yyyy-MM-dd HH:mm:ss"    value="${item.viewDate}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogViewInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogViewInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogView/blogView_info.js"></script>
+@}

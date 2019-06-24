@@ -1,0 +1,131 @@
+package ${controller.packageName};
+
+<% for(import in controller.imports!){ %>
+import ${import};
+<% } %>
+
+/**
+ * ${context.bizChName}控制器
+ *
+ * @author fengshuonan
+ * @Date ${tool.currentTime()}
+ */
+@Controller
+@RequestMapping("/${context.bizEnName}")
+public class ${context.bizEnBigName}Controller extends BaseController {
+
+    private String PREFIX = "/${context.moduleName}/${context.bizEnName}/";
+
+    @Autowired
+    private I${context.entityName}Service ${context.bizEnName}Service;
+
+    /**
+     * 跳转到${context.bizChName}首页
+     */
+    @RequestMapping("")
+    public String index() {
+        return PREFIX + "${context.bizEnName}.html";
+    }
+
+    /**
+     * 跳转到添加${context.bizChName}
+     */
+    @RequestMapping("/${context.bizEnName}_add")
+    public String ${context.bizEnName}Add() {
+        return PREFIX + "${context.bizEnName}_add.html";
+    }
+
+    /**
+     * 跳转到修改${context.bizChName}
+     */
+    @RequestMapping("/${context.bizEnName}_update/{${context.bizEnName}Id}")
+    public String ${context.bizEnName}Update(@PathVariable Integer ${context.bizEnName}Id, Model model) {
+        ${context.entityName} ${context.bizEnName} = ${context.bizEnName}Service.selectById(${context.bizEnName}Id);
+        model.addAttribute("item",${context.bizEnName});
+        LogObjectHolder.me().set(${context.bizEnName});
+        return PREFIX + "${context.bizEnName}_edit.html";
+    }
+
+    /**
+     * 获取${context.bizChName}列表,带分页功能bizEnBigName
+     */
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public Object list(String condition) {
+        Page<${context.bizEnBigName}> page = new PageFactory<${context.bizEnBigName}>().defaultPage();
+        ${context.bizEnName}Service.selectPage(page);
+        return super.packForBT(page);
+    }
+
+    /**
+     * 新增${context.bizChName}
+     */
+    @RequestMapping(value = "/add")
+    @ResponseBody
+    public Object add(${context.entityName} ${context.bizEnName}) {
+        ${context.bizEnName}Service.insert(${context.bizEnName});
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 删除${context.bizChName}
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public Object delete(@RequestParam("ids[]") List<Integer> ids) {
+        ${context.bizEnName}Service.deleteBatchIds(ids);;
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 修改${context.bizChName}
+     */
+    @RequestMapping(value = "/update")
+    @ResponseBody
+    public Object update(${context.entityName} ${context.bizEnName}) {
+        ${context.bizEnName}Service.updateById(${context.bizEnName});
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * ${context.bizChName}详情
+     */
+    @RequestMapping(value = "/detail/{${context.bizEnName}Id}")
+    @ResponseBody
+    public Object detail(@PathVariable("${context.bizEnName}Id") Integer ${context.bizEnName}Id) {
+        return ${context.bizEnName}Service.selectById(${context.bizEnName}Id);
+    }
+
+
+    /**
+     * ${context.bizChName}导出
+     */
+    @RequestMapping(value = "/export")
+    @ResponseBody
+    public void export() throws IOException {
+           Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("${context.bizChName}",""),
+           ${context.bizEnBigName}.class,${context.bizEnName}Service.selectList(null));
+           HttpServletResponse response = HttpKit.getResponse();
+           response.setContentType("application/vnd.ms-excel;charset=utf-8");
+           String file_name = URLEncoder.encode("${context.bizChName}.xls","UTF-8");
+           response.setHeader("Content-Disposition","attachment;filename="+file_name);
+           ServletOutputStream out=response.getOutputStream();
+           workbook.write(out);
+           workbook.close();
+           out.close();
+    }
+
+    /**
+     * ${context.bizChName}导入
+     */
+    @RequestMapping(value = "/import")
+    @ResponseBody
+    public Object importExcel(@RequestPart("file") MultipartFile excel) throws Exception {
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);
+        params.setHeadRows(1);
+        List<${context.bizEnBigName}> list = ExcelImportUtil.importExcel(excel.getInputStream(), ${context.bizEnBigName}.class, params);
+        ${context.bizEnName}Service.insertBatch(list);
+        return SUCCESS_TIP;
+    }
+}

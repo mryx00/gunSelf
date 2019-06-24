@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/layui/css/layui.css">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/static/css/mian.css">
+	<script>
+        //点赞函数
+        function myFunction (id,url,_this){
+            console.log($(_this));
+
+            if(!($(_this).hasClass("layblog-this"))){
+
+
+                console.log(_this.innerHTML);
+                var number = _this.innerText;
+                if (number===undefined)
+                    number=0;
+                console.log(number);
+                number++;
+
+
+                $.tipsBox({
+                    obj: $(_this),
+                    str: "+1",
+                    callback: function () {
+                        var ajax = new $ax(Feng.ctxPath + url,
+                            function (data) {
+                                console.log(_this.innerHTML);
+                                if (data.code===400) {
+                                    layer.msg(data.message, {
+                                        icon: 6
+                                        ,time: 1000
+                                    });
+
+                                    return;
+                                }
+
+                                layer.msg('点赞成功', {
+                                    icon: 6
+                                    ,time: 1000
+                                });
+                                $(_this).addClass('layblog-this');
+                                _this.innerHTML = "<i class=\"layui-icon layui-icon-praise\"></i><em>"+number+"</em>";
+                                //_this.innerHTML = _this.innerHTML.substring(0,_this.innerHTML.length-1)+number;
+                                //_this.innerText=number;
+                                console.log(_this);
+                                //niceIn($(_this));
+                            },
+                            function (data) {
+                                console.log(data);
+                                layer.msg('点赞失败,检查是否登录!', {
+                                    icon: 6
+                                    ,time: 1000
+                                })
+                            });
+                        console.log("blogId",id);
+                        if (url==="/blogTop/add"){
+                            ajax.set("articleId",id);
+                        } else{
+                            console.log(id);
+                            ajax.set("commentId",id);
+                        }
+                        ajax.start();
+                    }
+                });
+            }
+
+
+        }
+
+
+	</script>
+</head>
+<body class="lay-blog">
+		@include("/blog/html/top.html"){}
+		<div class="container-wrap"
+			 @if(isNotEmpty(blogBackImg)){
+			 style="background-image: url(/pictures/${blogBackImg.imgAddr});
+    				background-position: center top;
+    				background-size: cover;
+    				background-attachment: fixed;"
+			 @}
+		>
+			<div class="layui-container">
+				<div  class="layui-row">
+					<div class="layui-col-md9">
+						<div class="container container-message container-details" style="width:100%;margin: 10px auto;padding-right: 19px;width: 96%">
+							<div class="contar-wrap" style="background-color: white">
+								<div class="item">
+									<div class="item-box  layer-photos-demo1 layer-photos-demo">
+										<div style="display: inline-block">
+											<h3><a href="javascript:;">${blog.caption}</a></h3>
+										</div>
+										<div style="display:inline-block">
+											@for(blogTag in blogTags){
+											<span class="layui-btn-sm layui-btn-radius layui-btn-warm"
+												  style="color: white;
+    											font-size: 14px;"
+											>${blogTag.tagName}</span>
+											@}
+										</div>
+										<div>
+											<span style="font-weight: 200">
+												@if(isNotEmpty(blogTopic)){
+												<i>${blogTopic.topicName}</i>
+												@}
+											</span>
+											<hr class="layui-bg-red">
+										</div>
+										<h5>发布于：<span>${blog.date,"yyyy-MM-dd HH:mm:ss"}</span></h5>
+										<p>${blog.content}</p>
+										<div class="count layui-clear">
+											<span class="pull-left">阅读 <em>${viewCount}</em></span>
+											<span class="pull-right like" onclick="myFunction(${blog.id},'/blogTop/add',this)"><i class="layui-icon layui-icon-praise"></i><em>${topCount}</em></span>
+										</div>
+									</div>
+								</div>
+								<a name="comment"> </a>
+
+								<div class="comt layui-clear">
+									<div>
+										<span>排序</span> <a href="/blogComment/add/${blog.id}" class="pull-right">写评论</a>
+									</div>
+									<div>
+								<span style="font-size: 14px;font-weight: 300">
+									按时间
+								</span>
+										<div class="layui-btn-group">
+											<button class="layui-btn layui-btn-primary layui-btn-xs" onclick="showComments('date1')">
+												<i class="layui-icon">&#xe619;</i>
+											</button>
+											<button class="layui-btn layui-btn-primary layui-btn-xs" onclick="showComments('date2')">
+												<i class="layui-icon">&#xe61a;</i>
+											</button>
+										</div>
+									</div>
+									<div>
+								<span style="font-size: 14px;font-weight: 300">
+									按赞数
+								</span>
+										<div class="layui-btn-group">
+											<button class="layui-btn layui-btn-primary layui-btn-xs"  onclick="showComments('top1')">
+												<i class="layui-icon">&#xe619;</i>
+											</button>
+											<button class="layui-btn layui-btn-primary layui-btn-xs"  onclick="showComments('top2')">
+												<i class="layui-icon">&#xe61a;</i>
+											</button>
+										</div>
+									</div>
+
+								</div>
+
+                                <div style="padding: 20px">
+                                    @if(isNotEmpty(beforeBlog)){
+                                    <p style="font-weight: 200;font-size: 14px">上一篇：<a href="${beforeBlog.id}">${beforeBlog.caption}</a></p>
+                                    @}
+                                    @if(isNotEmpty(afterBlog)){
+                                    <p style="font-weight: 200;font-size: 14px">下一篇：<a href="${afterBlog.id}">${afterBlog.caption}</a></p>
+                                    @}
+                                </div>
+
+								<div id="LAY-msg-box">
+
+									@#ajax usertable :{
+									@if(isEmpty(blogCommentInfos)){
+									<p>还没有评论哦~</p>
+									@}else{
+									@for(blogCommentInfo in blogCommentInfos ){
+									<div class="info-item" style="padding: 20px">
+										<img class="info-img"
+											 @if(isEmpty(blogCommentInfo.ctPersonAvatar)){
+											 src="${ctxPath}/static/img/undefined.jpg"
+											 @}else{
+											 src="${ctxPath}/pictures/${blogCommentInfo.ctPersonAvatar}"
+											 @}
+											 alt="" style="width: 65px; height: 65px;">
+										<div class="info-text">
+											<p class="title count">
+												<span class="name">${blogCommentInfo.ctPersonName}</span>
+												<span class="name" style="padding-left: 20px">${blogCommentInfo.ctDate,dateFormat}</span>
+												<span class="info-img like" onclick="myFunction(${blogCommentInfo.id},'/commentTop/add',this)" ><i class="layui-icon layui-icon-praise" ></i>${blogCommentInfo.topCount}</span>
+											</p>
+											<p class="info-intr">${blogCommentInfo.ctContent}</p>
+										</div>
+									</div>
+									@}
+									@}
+									@}
+								</div>
+								<div id="test2" style="padding: 20px"></div>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md3">
+						<div id="rightCard1" style="margin-top: 10px">
+							<div class="layui-card" >
+								<div class="layui-card-header" style="text-align: center">最新评论</div>
+								<div class="layui-card-body" style="text-align: left">
+
+									@if(isNotEmpty(newComments)){
+										@for(newComment in newComments){
+									<fieldset class="layui-elem-field">
+										<legend style=" font-size: 16px;
+														 font-weight: 200;
+														 font-family: 宋体;">
+											${newComment.ctPersonName}
+											${newComment.ctDate,dateFormat}
+										</legend>
+										<div class="layui-field-box" style="font-size: 16px">
+											<a href="/blogContent/showDetails/${newComment.articleId}">${newComment.ctContent}</a>
+										</div>
+									</fieldset>
+										<!--<div>-->
+											<!--<span style="font-size: 16px">-->
+												<!--<a href="/blogContent/showDetails/${newComment.articleId}">${newComment.ctContent}</a>-->
+											<!--</span>-->
+											<!--<div style="text-align: right;-->
+														   <!--font-size: 16px;-->
+															<!--font-weight: 200;-->
+															<!--font-family: 宋体;">-->
+												<!-- -${newComment.ctPersonName}-->
+												<!--${newComment.ctDate,dateFormat}-->
+											<!--</div>-->
+										<!--</div>dateFormat-->
+										@}
+									@}else{
+										暂无
+									@}
+								</div>
+							</div>
+						</div>
+						<div id="rightCard2" style="margin-top: 10px">
+							<div class="layui-card">
+								<div class="layui-card-header" style="text-align: center">最热文章</div>
+								<div class="layui-card-body" style="text-align: center">
+									@if(isNotEmpty(hotBlogs)){
+									@for(hotBlog in hotBlogs.records){
+									<div style="font-weight: 200;margin-top: 5px">
+										<a href="/blogContent/showDetails/${hotBlog.id}">${hotBlog.caption}</a>
+									</div>
+									@}
+									@} else{
+									   暂无
+									@}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer" style="margin: 0">
+			<p>
+				<span>&copy; 2018</span>
+			</p>
+		</div>
+	<script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+	<script src="${ctxPath}/static/js/common/Feng.js"></script>
+	<script src="${ctxPath}/static/modular/blog/res/layui/layui.js">
+
+	</script>
+	<script>
+		layui.config({
+		  base: '${ctxPath}/static/modular/blog/res/static/js/'
+		}).use('blog');
+
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'test2' //注意，这里的 test1 是 ID，不用加 # 号
+                ,count: ${count}
+				,limit:${pageSize}
+                ,jump: function(obj) {
+                    var current =  obj.curr;
+                    var limit = obj.limit;
+                    $("#LAY-msg-box").load("/blogComment/showComments",{"blogId":${blog.id},"current":current,"size":limit},function(){
+
+                    });
+
+        			}
+            })
+        });
+        function showComments(orderby) {
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: 'test2' //注意，这里的 test1 是 ID，不用加 # 号
+                ,count: ${count}
+                ,limit:${pageSize}
+                ,jump: function(obj) {
+                    var current =  obj.curr;
+                    var limit = obj.limit;
+                    $("#LAY-msg-box").load("/blogComment/showComments",{"blogId":${blog.id},"current":1,"size":limit,"orderby":orderby},function(){
+                    });
+                }
+            })
+        }
+	</script>
+</body>
+</html>

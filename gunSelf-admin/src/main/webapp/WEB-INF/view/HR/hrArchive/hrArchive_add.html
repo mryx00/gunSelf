@@ -1,0 +1,67 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="hrArchiveInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="schemaId" name="薪资方案ID" underline="true"/>
+                            <#input id="staffId" name="对应账号" underline="true"/>
+                            <#input id="employeeNo" name="工号" underline="true"/>
+                            <#input id="name" name="姓名" underline="true"/>
+                            <#select id="sex" name="性别" dictName="性别" underline="true"/>
+                            <#input id="departmentId" name="部门" underline="true"/>
+                            <#input id="position" name="职务" underline="true"/>
+                            <#input id="positionRank" name="职级" underline="true"/>
+                            <#input id="positionGrade" name="职等" underline="true"/>
+                            <#input id="executiveLevel" name="行政级别" underline="true"/>
+                            <#input id="birthDate" name="出生日期" underline="true" script="laydate.render({elem: '#birthDate'});" />
+                            <#input id="age" name="年龄" underline="true"/>
+                            <#input id="idCard" name="身份证号" underline="true"/>
+                            <#input id="origo" name="籍贯" underline="true"/>
+                            <#input id="residenceRegistration" name="户口所在" underline="true"/>
+                            <#input id="nationality" name="民族" underline="true"/>
+                            <#input id="politicalStatus" name="政治面貌" underline="true"/>
+                            <#input id="marriageStatus" name="婚姻状况" underline="true"/>
+                            <#input id="graduateSchool" name="毕业院校" underline="true"/>
+                            <#input id="idcardExpiryDate" name="身份证到期" underline="true"/>
+                             <#input id="specialty" name="专业" underline="true"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="eduQualification" name="学历" underline="true"/>
+                            <#input id="eduDegree" name="学位" underline="true"/>
+                            <#input id="foreignLanguageLevel" name="外语水平" underline="true"/>
+                            <#input id="email" name="电子邮箱" underline="true"/>
+                            <#input id="homeAddress" name="家庭地址" underline="true"/>
+                            <#input id="mobile" name="移动电话" underline="true"/>
+                            <#input id="employmentType" name="用工类型" underline="true"/>
+                            <#input id="entryDate" name="入职时间" underline="true" script="laydate.render({elem: '#entryDate'});" />
+                            <#input id="regularDate" name="转正日期" underline="true" script="laydate.render({elem: '#regularDate'});" />
+                            <#input id="eduExperience" name="教育经历" underline="true"/>
+                            <#input id="resume" name="个人简历" underline="true"/>
+                            <#input id="archiveStatus" name="档案状态" underline="true"/>
+                            <#input id="leaveType" name="离职类别" underline="true"/>
+                            <#input id="leaveDate" name="离职日期" underline="true" script="laydate.render({elem: '#leaveDate'});" />
+                            <#input id="leaveReason" name="离职原因" underline="true"/>
+                            <#input id="isDel" name="是否删除" underline="true"/>
+                            <#input id="delTime" name="删除时间" underline="true"/>
+                            <#input id="delOperator" name="删除人" underline="true"/>
+                            <#input id="operator" name="操作人" underline="true"/>
+                            <#input id="operateTime" name="操作日期" underline="true"/>
+                            <#input id="domainId" name="单位ID" underline="true"/>
+                            <#textarea id="descCnt" name="备注" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="HrArchiveInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="HrArchiveInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/HR/hrArchive/hrArchive_info.js"></script>
+@}

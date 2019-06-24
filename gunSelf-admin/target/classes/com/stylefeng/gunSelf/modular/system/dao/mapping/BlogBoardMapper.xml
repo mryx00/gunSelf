@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogBoardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogBoard">
+        <id column="id" property="id" />
+        <result column="content" property="content" />
+        <result column="account" property="account" />
+        <result column="blogAccount" property="blogAccount" />
+        <result column="creatTime" property="creatTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, content, account, blogAccount, creatTime
+    </sql>
+    <select id="selectBlogBoardList" resultType="com.stylefeng.gunSelf.modular.blog.vo.BlogBoardInfo">
+    SELECT
+        blog_board.id AS id,
+        content,
+        blogAccount,
+        creatTime,
+        avatar,
+        `name`
+    FROM
+        blog_board
+    INNER JOIN sys_user ON blog_board.account = sys_user.account
+    <if test="blogAccount!=null">
+        AND blogAccount = #{blogAccount}
+    </if>
+    ORDER BY
+        creatTime desc
+    </select>
+
+</mapper>

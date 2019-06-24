@@ -1,0 +1,134 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl",
+      "type": "com.stylefeng.gunSelf.config.properties.BeetlProperties"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "name": "gunSelf",
+      "type": "com.stylefeng.gunSelf.config.properties.FadpProperties"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.ActivitiProperties",
+      "name": "gunSelf.activiti.datasource",
+      "type": "com.stylefeng.gunSelf.config.properties.ActivitiProperties"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpFlowableProperties",
+      "name": "gunSelf.flowable.datasource",
+      "type": "com.stylefeng.gunSelf.config.properties.FadpFlowableProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-end",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-start",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.properties",
+      "type": "java.util.Properties"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.resource-auto-check",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagroot",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagsuffix",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.ActivitiProperties",
+      "defaultValue": "root",
+      "name": "gunSelf.activiti.datasource.password",
+      "description": "默认多数据源的数据库密码",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.ActivitiProperties",
+      "defaultValue": "jdbc:mysql:\/\/127.0.0.1:3307\/fadpSpring_activiti?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull",
+      "name": "gunSelf.activiti.datasource.url",
+      "description": "默认多数据源的链接",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.ActivitiProperties",
+      "defaultValue": "root",
+      "name": "gunSelf.activiti.datasource.username",
+      "description": "默认多数据源的数据库账号",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "name": "gunSelf.file-upload-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpFlowableProperties",
+      "defaultValue": "root",
+      "name": "gunSelf.flowable.datasource.password",
+      "description": "默认多数据源的数据库密码",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpFlowableProperties",
+      "defaultValue": "jdbc:mysql:\/\/127.0.0.1:3306\/guns_flowable?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull",
+      "name": "gunSelf.flowable.datasource.url",
+      "description": "默认多数据源的链接",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpFlowableProperties",
+      "defaultValue": "root",
+      "name": "gunSelf.flowable.datasource.username",
+      "description": "默认多数据源的数据库账号",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "defaultValue": false,
+      "name": "gunSelf.kaptcha-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "name": "gunSelf.session-invalidate-time",
+      "description": "session 失效时间（默认为30分钟 单位：秒）",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "name": "gunSelf.session-validation-interval",
+      "description": "session 验证失效时间（默认为15分钟 单位：秒）",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "defaultValue": false,
+      "name": "gunSelf.spring-session-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.stylefeng.gunSelf.config.properties.FadpProperties",
+      "defaultValue": false,
+      "name": "gunSelf.swagger-open",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

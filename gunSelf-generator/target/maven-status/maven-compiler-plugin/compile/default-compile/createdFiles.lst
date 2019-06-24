@@ -1,0 +1,17 @@
+com\stylefeng\fadpSpring\generator\engine\config\DaoConfig.class
+com\stylefeng\fadpSpring\generator\action\model\MyTableField.class
+com\stylefeng\fadpSpring\generator\engine\config\ContextConfig.class
+com\stylefeng\fadpSpring\generator\engine\config\PageConfig.class
+com\stylefeng\fadpSpring\generator\action\model\TableFieldsVo.class
+com\stylefeng\fadpSpring\generator\action\config\WebGeneratorConfig.class
+com\stylefeng\fadpSpring\generator\engine\config\SqlConfig.class
+com\stylefeng\fadpSpring\generator\engine\config\Menu.class
+com\stylefeng\fadpSpring\generator\action\config\FadpGeneratorConfig.class
+com\stylefeng\fadpSpring\generator\engine\base\FadpTemplateEngine.class
+com\stylefeng\fadpSpring\generator\action\config\AbstractGeneratorConfig.class
+com\stylefeng\fadpSpring\generator\engine\base\AbstractTemplateEngine.class
+com\stylefeng\fadpSpring\generator\action\model\GenQo.class
+com\stylefeng\fadpSpring\generator\engine\config\ServiceConfig.class
+com\stylefeng\fadpSpring\generator\engine\SimpleTemplateEngine.class
+com\stylefeng\fadpSpring\generator\action\FadpCodeGenerator.class
+com\stylefeng\fadpSpring\generator\engine\config\ControllerConfig.class

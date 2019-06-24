@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>评论-闲言轻博客</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/layui/css/layui.css">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/static/css/mian.css">
+	<script>
+        //点赞函数
+        function myFunction (id,_this){
+            console.log($(_this));
+
+            if(!($(_this).hasClass("layblog-this"))){
+                $(_this).addClass('layblog-this');
+                console.log($(_this));
+                console.log(_this.text);
+                var number = _this.text;
+                if (number===undefined)
+                    number=0;
+                console.log(number);
+                number++;
+                $.tipsBox({
+                    obj: $(_this),
+                    str: "+1",
+                    callback: function () {
+                        var ajax = new $ax(Feng.ctxPath + "/blogTop/add",
+                            function (data) {
+                                if (data.code===400) {
+                                    layer.msg(data.message, {
+                                        icon: 6
+                                        ,time: 1000
+                                    });
+
+                                    return;
+                                }
+
+                                layer.msg('点赞成功', {
+                                    icon: 6
+                                    ,time: 1000
+                                });
+                                _this.innerHTML=number;
+                                //niceIn($(_this));
+                            },
+                            function (data) {
+                                console.log(data);
+                                layer.msg('点赞失败,检查是否登录!', {
+                                    icon: 6
+                                    ,time: 1000
+                                })
+                            });
+                        console.log("blogId",id);
+                        if (url==="/blogTop/add"){
+                            ajax.set("articleId",id);
+                        } else{
+                            console.log(id);
+                            ajax.set("commentId",id);
+						}
+                        ajax.start();
+                    }
+                });
+            }
+
+
+        }
+	</script>
+</head>
+<body class="lay-blog">
+		@include("/blog/html/top.html"){}
+		<div class="container-wrap">
+			<div class="container container-message container-details container-comment">
+					<div class="contar-wrap">
+						<div class="item">
+							<div class="item-box  layer-photos-demo1 layer-photos-demo">
+								<h3>${blog.caption}</h3>
+								<h5>发布于：<span>${blog.date,"yyyy-MM-dd HH:mm:ss"}</span></h5>
+								<p>${blog.content}</p>
+								<div class="count layui-clear">
+									<span class="pull-left">阅读 <em>${viewCount}</em></span>
+									<span class="pull-right like" onclick="myFunction(${blog.id},this)"><i class="layui-icon layui-icon-praise"></i><em>${topCount}</em></span>
+								</div>
+							</div>
+						</div>	
+
+							<div class="layui-form-item layui-form-text">
+								<textarea  class="layui-textarea" id="ct" style="resize:none" placeholder="写点什么啊"></textarea>
+							</div>
+							<div class="btnbox">
+								<button class="layui-btn layui-btn-normal"  id="sure">确定</button>
+							</div>
+					</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p>
+				<span>&copy; 2018</span>
+			</p>
+			<p><span>人生就是一场修行</span></p>
+		</div>
+	<script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+	<script src="${ctxPath}/static/js/common/Feng.js"></script>
+	<script src="${ctxPath}/static/modular/blog/res/layui/layui.js">
+
+	</script>
+	<script>
+		layui.config({
+		  base: '${ctxPath}/static/modular/blog/res/static/js/'
+		}).use('blog');
+
+
+        function supplement(nn){
+            return nn = nn < 10 ? '0' + nn : nn;
+        }
+
+        function format(Date,str){
+            var obj = {
+                Y: Date.getFullYear(),
+                M: Date.getMonth() + 1,
+                D: Date.getDate(),
+                H: Date.getHours(),
+                Mi: Date.getMinutes(),
+                S: Date.getSeconds()
+            }
+            // 拼接时间 hh:mm:ss
+            var time = ' ' +supplement(obj.H) + ':' + supplement(obj.Mi) + ':' + supplement(obj.S);
+            // yyyy-mm-dd
+            if(str.indexOf('-') > -1){
+                return obj.Y + '-' + supplement(obj.M) + '-' + supplement(obj.D) + time;
+            }
+            // yyyy/mm/dd
+            if(str.indexOf('/') > -1){
+                return obj.Y + '/' + supplement(obj.M) + '/' + supplement(obj.D) + time;
+            }
+        }
+
+        $('#sure').on('click', function() {
+            var elemCont = $('#ct')
+                , content = elemCont.val();
+            console.log(content);
+            if (content.replace(/\s/g, '') == "") {
+                layer.msg('请先输入评论');
+                return elemCont.focus();
+            }
+
+
+            var ajax = new $ax(Feng.ctxPath + "/blogComment/add", function (data) {
+                Feng.success("评论成功!");
+                window.location.href = "/blogContent/showDetails/${blog.id}#comment";
+
+            }, function (data) {
+                Feng.error("评论失败!" + data.responseJSON.message + "!");
+            })
+            ajax.set("articleId",${blog.id});
+            ajax.set("ctPersonId",${user.id});
+            ajax.set("ctContent",content);
+            ajax.set("ctDate",format(new Date(),'-'));
+            ajax.start();
+        });
+	</script>
+	<script id="LAY-msg-tpl" type="text/html">
+		<div class="info-box">
+			<div class="info-item">
+				<img class="info-img" src="{{ d.avatar }}" alt="">
+			  <div class="info-text">
+					<p class="title">
+					  <span class="name">{{ d.username }}</span>
+					  <span class="info-img">
+					  	<i class="layui-icon layui-icon-praise"></i>
+					  	{{ d.praise }}
+					 	</span>
+					</p>
+					<p class="info-intr">
+						{{ d.content }}
+					</p>
+			  </div>
+			</div>
+		</div>
+	</script>
+</body>
+</html>

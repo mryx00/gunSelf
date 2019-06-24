@@ -1,0 +1,30 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="empinfoInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                               <#input id="empNo" name="员工编号" value="${item.empNo}" readonly="readonly"/>
+                              <#input id="empName" name="员工姓名" underline="true"   value="${item.empName}" />
+                               <#select id="empSex" name="性别" dictName="性别" underline="true"   value="${item.empSex}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="empAge" name="年龄" underline="true"   value="${item.empAge}" />
+                               <#input id="empDate" name="入职日期" underline="true" script="laydate.render({elem: '#empDate',type: 'datetime'});"    value="${item.empDate}" dateTimeformat="yyyy-MM-dd HH:mm:ss" />
+                               <#input id="deptId" name="部门" underline="true"   value="${item.deptId}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="EmpinfoInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="EmpinfoInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/Emp/empinfo/empinfo_info.js"></script>
+@}

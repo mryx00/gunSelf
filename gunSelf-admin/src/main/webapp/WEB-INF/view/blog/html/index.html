@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>闲言</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="${ctxPath}/static/css/plugins/wangEditor/wangEditor.css">
+	<link rel="stylesheet" href="${ctxPath}/static/css/blog.css">
+	<!--<link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">-->
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/layui/css/layui.css">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/static/css/mian.css">
+	<script>
+		//统计链接点击
+		function linkClick(id){
+            var ajax = new $ax(Feng.ctxPath + "/blogLink/click",
+                function (data) {
+               		console.log(data);
+                },
+                function (data) {
+                    console.log(data);
+                    // layer.msg('失败!', {
+                    //     icon: 6
+                    //     ,time: 1000
+                    // })
+                });
+            ajax.set("id",id);
+            ajax.start();
+        }
+        //点赞函数
+        function myFunction (id,_this){
+            console.log($(_this));
+                if(!($(_this).hasClass("layblog-this"))){
+                    $(_this).addClass('layblog-this');
+                    console.log($(_this));
+                    console.log(_this.text);
+                    var number = _this.text.substring(2,_this.text.length);
+                    if (number===undefined)
+                        number=0;
+                    console.log(number);
+                    number++;
+                    $.tipsBox({
+                        obj: $(_this),
+                        str: "+1",
+                        callback: function () {
+                            var ajax = new $ax(Feng.ctxPath + "/blogTop/add",
+                                function (data) {
+                                if (data.code===400) {
+                                    layer.msg(data.message, {
+                                        icon: 6
+                                        ,time: 1000
+                                    });
+
+                                    return;
+								}
+
+								layer.msg('点赞成功', {
+									icon: 6
+									,time: 1000
+								});
+							   	_this.innerHTML="点赞"+number;
+                                    //niceIn($(_this));
+                                },
+                                function (data) {
+                                    console.log(data);
+                                    layer.msg('点赞失败,检查是否登录!', {
+                                        icon: 6
+                                        ,time: 1000
+                                    })
+                                });
+                            console.log("blogId",id);
+                            ajax.set("articleId",id);
+                            ajax.start();
+                        }
+                    });
+                }
+
+
+        }
+	</script>
+
+</head>
+<body class="lay-blog">
+		@include("/blog/html/top.html"){}
+		<div class="container-wrap"
+		@if(isNotEmpty(blogBackImg)){
+			 style="background-image: url(/pictures/${blogBackImg.imgAddr});
+    				background-position: center top;
+    				background-size: cover;
+    				background-attachment: fixed;"
+			 @}
+		>
+			<div class="container" >
+					<div class="layui-row" >
+						<div class="layui-col-md3"
+							 style="
+								padding: 10px;
+								padding-top: 0;
+								">
+							<div id="leftCard">
+								<div class="layui-card" style="height: 354px" >
+									<div class="layui-card-header" style="text-align: center">个人信息</div>
+									<div class="layui-card-body" style="text-align: center">
+										@if(isNotEmpty(blogUser.avatar)){
+										<img class="info-img" src="/pictures/${blogUser.avatar}" alt="" style="width: 65px; height: 65px;border-radius: 32.5px">
+										@}else{
+										<img class="info-img" src="/pictures/undefined" alt="" style="width: 65px; height: 65px;border-radius: 32.5px">
+										@}
+										<div>
+											<span style="vertical-align: middle">${blogUser.name}</span>
+											@if(blogUser.sex==1){
+											<img class="info-img" style="width: 20px;height: 20px" src="/static/img/male.png">
+											@}else{
+											<img class="info-img" style="width: 20px;height: 20px" src="/static/img/female.png">
+											@}
+										</div>
+										<div style="
+										margin-top: 25px;
+										font-size: 15px;
+    									color: gray;">
+											<div>
+												<div style="display: inline-block;width: 50%">文章 ${articleSum}</div>
+												<div style="display: inline-block;width: 47%">访问量${viewSum}</div>
+											</div>
+											<div class="layui-card-header" style="border-top: 1px solid #f6f6f6;">排序方式</div>
+											<div  style="text-align: center;padding: 2px">
+											<span>
+												发布时间
+											</span>
+												<div class="layui-btn-group">
+													<a class="layui-btn layui-btn-primary layui-btn-xs"
+													   href="?title=${title}&orderby=date1
+													@if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													"
+													>
+														<i class="layui-icon">&#xe619;</i>
+													</a>
+													<a class="layui-btn layui-btn-primary layui-btn-xs"
+													   href="?title=${title}&orderby=date2
+													@if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													"
+													>
+														<i class="layui-icon">&#xe61a;</i>
+													</a>
+												</div>
+											</div>
+											<div style="text-align: center;padding: 2px">
+											<span>
+												按评论量
+											</span>
+												<div class="layui-btn-group">
+													<a class="layui-btn layui-btn-primary layui-btn-xs"
+												   href="?title=${title}&orderby=comment1
+													@if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													">
+														<i class="layui-icon">&#xe619;</i>
+													</a>
+													<a class="layui-btn layui-btn-primary layui-btn-xs" href="?title=${title}&orderby=comment2
+												    @if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													">
+														<i class="layui-icon">&#xe61a;</i>
+													</a>
+												</div>
+											</div>
+											<div style="text-align: center;padding: 2px">
+											<span>
+												按点击量
+											</span>
+												<div class="layui-btn-group">
+													<a class="layui-btn layui-btn-primary layui-btn-xs" href="?title=${title}&orderby=top1
+													@if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													">
+														<i class="layui-icon">&#xe619;</i>
+													</a>
+													<a class="layui-btn layui-btn-primary layui-btn-xs" href="?title=${title}&orderby=top2
+													@if(isNotEmpty(currentTopic)){
+													${currentTopic.id}
+													@}
+													">
+														<i class="layui-icon">&#xe61a;</i>
+													</a>
+												</div>
+											</div>
+										</div>
+										<div>
+
+										</div>
+									</div>
+								</div>
+								<div id="rightCard5" style="margin-top: 10px">
+									<div class="layui-card"  >
+										<div class="layui-card-header" style="text-align: center">音乐</div>
+
+										<div class="layui-card-body" style="text-align: center">
+											@if(isNotEmpty(blogMusic)){
+											<div class="audio-wrapper">
+												<audio preload="auto">
+													<source src="${ctxPath}/play/${blogMusic.musicAddr}" type="audio/mp3">
+												</audio>
+												<div class="audio-left" >
+													<img id="audioPlayer" src="/static/img/play.png" style="width: 26px">
+												</div>
+												<div class="audio-right">
+													<p style="max-width: 536px;">${blogMusic.musicName}</p>
+													<div class="progress-bar-bg" id="progressBarBg">
+														<span id="progressDot"></span>
+														<div class="progress-bar" id="progressBar"></div>
+													</div>
+													<div class="audio-time">
+														<span class="audio-length-current" id="audioCurTime">00:00</span>
+														<span class="audio-length-total" id="audioTotalTime">00:00</span>
+													</div>
+												</div>
+											</div>
+											<!--<div id="app"></div>-->
+											@}else{
+											暂无
+											@}
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+							<div id="replace" style="height: 354px;display: none"></div>
+						</div>
+						<div class="layui-col-md6" >
+
+							<h4 class="item-title">
+								<p><i class="layui-icon layui-icon-speaker"></i>公告：
+									<span>
+								@if(isNotEmpty(shiro.getUser())){
+                                   ${shiro.getUser().name},欢迎来到${blogUser.name}的轻博客
+								@}else{
+									游客，欢迎来到${blogUser.name}的轻博客
+								@}
+								</span>
+								</p>
+							</h4>
+							<div id="content">
+								@for (blog in blogs.records){
+								<div class="item" >
+									<div class="item-box  layer-photos-demo1 layer-photos-demo">
+										<div style="display: inline-block">
+											<h3><a href="/blogContent/showDetails/${blog.id}">${blog.caption}</a></h3>
+										</div>
+										<div style="display:inline-block">
+											@for(blogTag in blog.blogTags){
+											<span class="layui-btn-sm layui-btn-radius layui-btn-warm"
+												  style="color: white;
+    											font-size: 14px;"
+											>${blogTag.tagName}</span>
+											@}
+										</div>
+										<div>
+											<span style="font-weight: 200"><i>${blog.topicName}</i></span>
+											<hr class="layui-bg-red">
+										</div>
+
+										<h5>发布于：<span>${blog.date,"yyyy-MM-dd HH:mm:ss"}</span></h5>
+										<div style="
+								  overflow: hidden;
+								height: 130px;">
+											${blog.content}</div>
+										......
+									</div>
+
+									<div class="comment count">
+										<a href="/blogContent/showDetails/${blog.id}#comment">评论${blog.commentSum}</a>
+										<a href="javascript:;" class="like" onclick="myFunction(${blog.id},this)">点赞${blog.topSum}</a>
+									</div>
+								</div>
+								@}
+								@if(blogs.total == 0){
+								暂无相关信息
+								@}
+							</div>
+
+							<div class="layui-row" >
+								<div class="item-btn" style="margin-bottom: 20px">
+									<button class="layui-btn layui-btn-normal" id="nextPage">下一页</button>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md3"
+							 style="
+								padding: 10px;
+								padding-top: 0;
+								">
+							<div id="rightCard1">
+								<div class="layui-card"  >
+									<div class="layui-card-header" style="text-align: center">博客专题</div>
+									<div class="layui-card-body" style="text-align: center">
+										@if(isNotEmpty(blogTopics)){
+											<ul>
+												<li>
+													<a href="/blogContent/show/${blogUser.account}" style="font-size: 20px;font-weight: 100;line-height: 2px;">全部</a>
+													@if(currentTopic==null){
+													<span class="layui-btn-sm layui-btn-radius layui-btn-normal" style="color: white;font-size: 14px;">当前</span>
+													@}
+												</li>
+											@for(blogTopic in blogTopics){
+													<li>
+														<a href="?topic=${blogTopic.id}" style="font-size: 20px;font-weight: 100;line-height: 2px;">${blogTopic.topicName}</a>
+														@if(currentTopic!=null&&blogTopic.topicName==currentTopic.topicName){
+														<span class="layui-btn-sm layui-btn-radius layui-btn-normal" style="color: white;font-size: 14px;">当前</span>
+														@}
+													</li>
+													@}
+											</ul>
+										@}else{
+											暂无
+										@}
+										<ul>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div id="rightCard2" style="margin-top: 10px">
+								<div class="layui-card" style="height: 224px" >
+									<div class="layui-card-header" style="text-align: center">个人相册</div>
+									<div class="layui-card-body" style="text-align: center">
+										<div class="layui-carousel" id="test2">
+											<div carousel-item>
+												@for (blogPhoto in blogPhotos){
+													<div>
+														<i style="font-size: 17px">${blogPhoto.photoName}</i>
+														<img src="/pictures/${blogPhoto.photoAddr}" style="width: 100%;height: 124px">
+													</div>
+												@}
+											</div>
+										</div>
+								</div>
+								</div>
+							</div>
+							<div id="rightCard3" style="margin-top: 10px">
+								<div class="layui-card" >
+									<div class="layui-card-header" style="text-align: center">标签云</div>
+									<div class="layui-card-body" style="text-align: center">
+										<!--<div id="canvas" style="width: 100%;height: 100%"></div>-->
+										<div id="container1" style="height: 200px;"></div>
+									</div>
+								</div>
+							</div>
+
+							<div id="rightCard4" style="margin-top: 10px">
+								<div class="layui-card" >
+									<div class="layui-card-header" style="text-align: center">外部链接</div>
+									<div class="layui-card-body" style="text-align: center" id="whatever">
+										@if(isNotEmpty(blogLinks)){
+										@for (blogLink in blogLinks){
+										<ul>
+											<li><a rel="3" style="font-size: 20px;font-weight: 100;line-height: 2px;" href="${blogLink.linkAddr}" target="_blank" onclick="linkClick(${blogLink.id})">${blogLink.linkName}</a></li>
+										</ul>
+										@}
+										@}else{
+										暂无
+										@}
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+					<!--<div class="layui-row" >-->
+						<!--<div class="item-btn">-->
+							<!--<button class="layui-btn layui-btn-normal" id="nextPage">下一页</button>-->
+						<!--</div>-->
+					<!--</div>-->
+			</div>
+		</div>
+
+
+
+		<div class="footer" style="margin: 0" >
+			<p>
+				<span>&copy; 2018</span>
+			</p>
+		</div>
+	<script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+	<script src="${ctxPath}/static/js/common/Feng.js"></script>
+	<script src="${ctxPath}/static/modular/blog/res/layui/layui.js"></script>
+	<script src="${ctxPath}/static/js/wordcloud2.js"></script>
+	<script src="${ctxPath}/static/js/jquery.tagcloud.js"></script>
+	<script>
+        $(function(){
+            if(${blogs.pages==blogs.current||blogs.total==0}){
+                $("#nextPage").html("没有下一页");
+                $("#nextPage").removeClass("layui-btn layui-btn-normal");
+                $("#nextPage").addClass("layui-btn layui-btn-disabled");
+                $("#nextPage  ").attr({"disabled":"disabled"});
+            }
+            if (navigator.userAgent.match(/mobile/i)) {
+				console.log("当前是移动设备");
+            } else{
+                $(window).scroll(function() {
+                    //为了保证兼容性，这里取两个值，哪个有值取哪一个
+                    //scrollTop就是触发滚轮事件时滚轮的高度
+                    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    //console.log("滚动距离" + scrollTop);
+                    if (scrollTop>139){
+					if (!$('#leftCard').hasClass("fixed-left")) {
+                        $('#leftCard').addClass("fixed-left");
+                        $('#leftCard').css("top","1px");
+                        if ($(window).height()<480) {
+                            $('#leftCard').removeAttr("style");
+                            $('#leftCard').css('bottom','180px');
+                            console.log("remove...");
+                        }
+                        $('#replace').css('display','block')
+						}
+					} else{
+                        if ($('#leftCard').hasClass("fixed-left")) {
+                            $('#leftCard').removeClass("fixed-left");
+                            $('#leftCard').removeAttr("style");
+                            $('#replace').css('display','none');
+                        }
+					}
+                })
+			}
+        });
+
+        $(window).resize(function () {          //当浏览器大小变化时
+            console.log($(window).height());          //浏览器时下窗口可视区域高度
+			if ($(window).height()<480) {
+                $('#leftCard').removeAttr("style");
+                $('#leftCard').css('bottom','180px');
+                console.log("remove...");
+			}
+        });
+        layui.config({
+		  base: '${ctxPath}/static/modular/blog/res/static/js/'
+		}).use('blog');
+
+        $("#nextPage").click(function(){
+
+            var ajax = new $ax(Feng.ctxPath + "/blogContent/nextPage?title=${title}&orderby=${orderby}", function (data) {
+                Feng.success("加载成功!");
+                console.log(data);
+                for (var i=0;i<data.length;i++) {
+                    var blog = data[i];
+                    if (blog.topicName==null){
+                        blog.topicName="";
+					}
+                    let divTag="";
+                    if (blog.blogTags.length!=0){
+                        for (var i = 0; i < blog.blogTags.length; i++) {
+                            var blogTag = blog.blogTags[i];
+                            divTag= divTag+
+                                "\t\t\t\t\t\t\t\t\t\t<span class=\"layui-btn-sm layui-btn-radius layui-btn-warm\"\n" +
+                                "\t\t\t\t\t\t\t\t\t\t\t  style=\"color: white;\n" +
+                                "    \t\t\t\t\t\t\t\t\t\t\tfont-size: 14px;\"\n" +
+                                "\t\t\t\t\t\t\t\t\t\t>"+blogTag.tagName+"</span>\n"
+                        }
+
+                    }
+                    console.log(divTag);
+
+
+                    $("#content").append(
+                       "<div class=\"item\">\n" +
+                        "\t\t\t\t\t\t\t<div class=\"item-box  layer-photos-demo1 layer-photos-demo\">\n" +
+						"\t\t\t\t\t\t\t\t\t<div style=\"display: inline-block\">\n"+
+                        "\t\t\t\t\t\t\t\t\t\t\t<h3><a href=\"/blogContent/showDetails/"+blog.id+"\">"+blog.caption+"xz"+"</a></h3>\n" +
+						"\t\t\t\t\t\t\t\t\t</div>"+
+                        "\t\t\t\t\t\t\t\t\t<div style=\"display: inline-block\">\n"+
+                        "\t\t\t\t\t\t\t\t\t"+divTag+
+                        "\t\t\t\t\t\t\t\t\t</div>"+
+                        "\t\t\t\t\t\t\t\t\t<div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<span style=\"font-weight: 200\"><i>"+blog.topicName+"</i></span>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<hr class=\"layui-bg-red\">\n" +
+                        "\t\t\t\t\t\t\t\t\t</div>"+
+                        "\t\t\t\t\t\t\t\t<h5>发布于：<span>"+blog.date+"</span></h5>\n" +
+                        "\t\t\t\t\t\t\t\t<div style=\"\n" +
+                        "\t\t\t\t\t\t\t\t  overflow: hidden;\n" +
+                        "\t\t\t\t\t\t\t\theight: 130px;\">"+blog.content+"</>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +"......"+
+                        "\t\t\t\t\t\t\t<div class=\"comment count\">\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"/blogContent/showDetails/"+blog.id+"\">评论"+blog.commentSum+"</a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"javascript:;\" class=\"like\" onclick=\"myFunction("+blog.id+",this)\">点赞"+blog.topSum +"</a>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t</div>"
+                    )
+				}
+
+				if(data.pages==data.current){
+				    $("#nextPage").html("没有下一页");
+                    $("#nextPage").removeClass("layui-btn layui-btn-normal");
+                    $("#nextPage").addClass("layui-btn layui-btn-disabled");
+                    $("#nextPage  ").attr({"disabled":"disabled"});
+				}
+            }, function (data) {
+                Feng.error("加载失败!" + data.responseJSON.message + "!");
+            });
+            ajax.set("current",${current}+1);
+            ajax.set("account","${account}");
+            ajax.start();
+        });
+
+        layui.use('carousel', function(){
+            var carousel = layui.carousel;
+            //建造实例
+            carousel.render({
+                elem: '#test2'
+                ,width: '100%' //设置容器宽度
+                ,arrow: 'always' //始终显示箭头
+				,height:'154px' //
+                //,anim: 'updown' //切换动画方式
+            });
+        });
+
+        layui.use('util', function(){
+            var util = layui.util;
+
+            //执行
+            util.fixbar({
+                bar1: false
+                ,click: function(type){
+                    console.log(type);
+                    if(type === 'bar1'){
+                        alert('点击了bar1')
+                    }
+                }
+            });
+        });
+
+        //词云配置
+        // var wordFreqData = [['各位观众',45],['词云', 21],['来啦!!!',13]];
+        var wordFreqs = ${blogTagsJson};
+        var wordFreqData = new Array();
+        for (var i = 0; i < wordFreqs.length; i++) {
+            var option = [wordFreqs[i].tagName, wordFreqs[i].count];
+            wordFreqData.push(option);
+        }
+        console.log(wordFreqData);
+        var option = {
+            list: wordFreqData,
+            color: 'red',
+        }
+        var wc1 = new Js2WordCloud(document.getElementById('container1'));
+        wc1.setOption(option);
+
+        //生成
+        // WordCloud(canvas, options);
+
+        $(function() {
+            console.log("调用函数1！");
+            $('#topMenu').find('li').each(function(index,element) {
+                if ($(this).hasClass("layui-this")) {
+                    $(this).removeClass("layui-this");
+                }
+                if (index===0){
+                    var that = this;
+                    $(that).addClass("layui-this");
+                }
+            })
+        })
+	</script>
+
+
+</body>
+</html>

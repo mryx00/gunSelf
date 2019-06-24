@@ -1,0 +1,28 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="deptinfoInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                                   <#input id="deptId" name="编号" value="${item.deptId}" readonly="readonly"/>
+                               <#input id="deptName" name="部门名称" underline="true"   value="${item.deptName}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#textarea id="deptDesp" name="部门备注" underline="true"   value="${item.deptDesp}" />
+                               <#input id="isDelete" name="是否删除" underline="true"   value="${item.isDelete}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="DeptinfoInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="DeptinfoInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/deptinfo/deptinfo_info.js"></script>
+@}

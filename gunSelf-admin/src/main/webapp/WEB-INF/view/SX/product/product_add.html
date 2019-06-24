@@ -1,0 +1,34 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="productInfoForm">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="row">
+                    <div class="col-sm-6 b-r">
+                        <#input id="productName" name="产品名称" underline="true"/>
+                        <#select id="productPlace" name="产地" dictName="产地" underline="true" verify="required"/>
+                        <#select id="productSpecs" name="产品规格" dictName="产品规格" underline="true"/>
+                        <#input id="productPrice" name="价格(元)" underline="true"/>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <#select id="productYear" name="产品年份" dictName="产品年份" underline="true"/>
+                        <#input id="stockNumber" name="库存数" underline="true"/>
+                        <#select id="categoryNo" name="产品类别"  underline="true" selectVal="${productCategories}" selectKey="categoryName" selectValue="categoryNo"/>
+                        <#input id="isDelete" name="是否下架" underline="true" value="N" hd="true" type="hidden" />
+                    </div>
+                </div>
+
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <#button btnCss="info" name="提交" id="ensure" icon="fa-check" submit="true" clickFun="ProductInfoDlg.addSubmit()" />
+                        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ProductInfoDlg.close()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/product/product_info.js"></script>
+@}

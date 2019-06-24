@@ -1,0 +1,27 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="deploymodelInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                              <#input id="deployId" name="部署Id" underline="true"   value="${item.deployId}" />
+                               <#input id="deployName" name="部署名称" underline="true"   value="${item.deployName}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="deployTime" name="部署时间" underline="true"   value="${item.deployTime}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="DeploymodelInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="DeploymodelInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/activiti/deploymodel/deploymodel_info.js"></script>
+@}

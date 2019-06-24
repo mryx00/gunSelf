@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>闲言</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="${ctxPath}/static/css/plugins/wangEditor/wangEditor.css">
+	<link rel="stylesheet" href="${ctxPath}/static/css/blog.css">
+	<!--<link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">-->
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/layui/css/layui.css">
+	<link rel="stylesheet" href="${ctxPath}/static/modular/blog/res/static/css/mian.css">
+</head>
+<body class="lay-blog">
+		@include("/blog/html/top.html"){}
+		<div class="container-wrap"
+			 @if(isNotEmpty(blogBackImg)){
+			 style="background-image: url(/pictures/${blogBackImg.imgAddr});
+    				background-position: center top;
+    				background-size: cover;
+    				background-attachment: fixed;"
+			 @}
+			>
+			<div class="container" >
+
+				<div class="layui-card">
+					<div class="layui-card-header">留言面板</div>
+					<div class="layui-card-body">
+						<div id="LAY-msg-box">
+							@#ajax usertable :{
+							@if(isEmpty(blogBoardInfos)){
+							<p>还没有留言哦~</p>
+							@}else{
+							@for(blogBoardInfo in blogBoardInfos ){
+							<div class="info-item">
+								<div class="info-text">
+
+									<p class="title count">
+										<img class="info-img"
+											 @if(isEmpty(blogBoardInfo.avatar)){
+											 src="${ctxPath}/static/img/undefined.jpg"
+											 @}else{
+											 src="${ctxPath}/pictures/${blogBoardInfo.avatar}"
+											 @}
+											 alt="" style="width: 30px; height: 30px;border-radius: 15px">
+
+										<span class="name" style="font-size: 17px;font-family: 宋体;">${blogBoardInfo.name}</span>
+										<span class="name" style="font-size: 17px;font-family: 宋体;"
+											  style="padding-left: 20px">${blogBoardInfo.creatTime,dateFormat}</span>
+									</p>
+									<p class="info-intr" style="margin-left: 36px;font-weight: 300; font-family: 宋体;">${blogBoardInfo.content}</p>
+								</div>
+							</div>
+							<hr class="layui-bg-blue">
+							@}
+							@}
+							@}
+						</div>
+						<div id="test2"></div>
+					</div>
+				</div>
+                <div class="layui-form-item layui-form-text">
+                    <textarea  class="layui-textarea" id="ct" style="resize:none" placeholder="写点什么啊"></textarea>
+                </div>
+                <div class="btnbox">
+                    <button class="layui-btn layui-btn-normal"  id="sure" onclick="submit()">确定</button>
+                </div>
+			</div>
+		</div>
+
+
+
+		<div class="footer" style="margin: 0" >
+			<p>
+				<span>&copy; 2019</span>
+			</p>
+		</div>
+	<script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+	<script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+	<script src="${ctxPath}/static/js/common/Feng.js"></script>
+	<script src="${ctxPath}/static/modular/blog/res/layui/layui.js"></script>
+	<!--<script src="${ctxPath}/static/modular/blog/res/static/js/blog.js"></script>-->
+
+	<script>
+
+        $(function() {
+            console.log("调用函数1！");
+            $('#topMenu').find('li').each(function(index,element) {
+                if ($(this).hasClass("layui-this")) {
+                    $(this).removeClass("layui-this");
+                }
+                if (index===2){
+                    var that = this;
+                        $(that).addClass("layui-this");
+                    }
+            })
+        });
+        function submit(){
+            console.log($("#ct").val());
+            layui.use('layer', function () {
+
+                    var layer = layui.layer;
+                    layer.ready(function(){
+                        if ($("#ct").val() == "") {
+
+                            layer.msg("请输入留言内容");
+                            return;
+                        }
+                        if ("${account}"=="notLogin")
+                        {
+                            layer.msg("请登录后再进行留言");
+                            return;
+                        }
+
+                        else{
+                            var ajax = new $ax(Feng.ctxPath + "/blogBoard/add",
+                                function(data){
+                                    layer.msg("添加成功!");
+									window.location.reload();
+                                },function(data){
+                                    layer.msg("添加失败" + data.responseJSON.message + "!");
+                                });
+                            var content = $("#ct").val();
+                            ajax.set("account","${account}");
+                            ajax.set("blogAccount","${blogUser.account}");
+                            ajax.set("content",content);
+                            ajax.start();
+                        }
+                    });
+
+        }
+        );
+
+        }
+
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'test2' //注意，这里的 test1 是 ID，不用加 # 号
+				,count:${count}
+				,limit:5
+                ,jump: function(obj) {
+                    var current =  obj.curr;
+                    var limit = obj.limit;
+                    $("#LAY-msg-box").load("/blogBoard/showBoards",{"account":"${blogUser.account}","current":current},function(){
+                    });
+                }
+            })
+        });
+
+
+	</script>
+
+
+</body>
+</html>

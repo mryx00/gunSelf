@@ -1,0 +1,31 @@
+@layout("/common/_container.html"){
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="form-horizontal" id="blogLinkInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                               <#input id="id" name="主键" value="${item.id}" readonly="readonly"/>
+                              <#input id="linkName" name="链接名" underline="true"   value="${item.linkName}" />
+                              <#input id="linkAddr" name="外链接地址" underline="true"   value="${item.linkAddr}" />
+                               <#input id="account" name="账户名" underline="true"   value="${item.account}" />
+                </div>
+
+                <div class="col-sm-6">
+                               <#input id="count" name="点击次数" underline="true"   value="${item.count}"  readonly="readonly" />
+                               <#input id="createTime" name="创建时间" underline="true"   value="${item.createTime}"  readonly="readonly" dateTimeformat="yyyy-MM-dd HH:mm:ss"/>
+                               <#input id="order" name="排序" underline="true"   value="${item.order}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogLinkInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogLinkInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/blog/blogLink/blogLink_info.js"></script>
+@}

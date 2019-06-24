@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogContentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogContent">
+        <id column="id" property="id" />
+        <result column="caption" property="caption" />
+        <result column="auther" property="auther" />
+        <result column="date" property="date" />
+        <result column="content" property="content" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, caption, auther, date, content
+    </sql>
+
+    <select id="listContent" resultType="com.stylefeng.gunSelf.modular.blog.vo.BlogContentInfo">
+        select a.id,a.caption,a.content,a.auther,a.date,a.commentSum,a.topicName,b.topSum FROM
+		(SELECT
+          blog_content.id,
+          blog_content.caption,
+          blog_content.content,
+          blog_content.auther,
+          blog_content.date,
+          topic,
+          topicName,
+          COUNT(ctContent) as commentSum
+      FROM
+          blog_content
+      LEFT JOIN blog_comment ON blog_content.id = blog_comment.articleId
+      LEFT JOIN blog_topic ON blog_content.topic = blog_topic.id
+      GROUP BY
+          blog_content.id
+		) as a
+		INNER JOIN
+		(SELECT
+          blog_content.id,
+          COUNT(blog_top.articleId) as topSum
+      FROM
+          blog_content
+      LEFT JOIN blog_top ON blog_content.id = blog_top.articleId
+      GROUP BY
+          blog_content.id
+		) as b
+        where a.id = b.id
+        <if test="account !=null">
+            AND a.auther=#{account}
+        </if>
+
+        <if test="topic != null">
+            AND a.topic = #{topic}
+        </if>
+
+        <if test="title != null">
+            AND a.caption like  CONCAT('%',#{title},'%')
+        </if>
+
+        <if test="orderby =='date1'">
+            order by a.date
+        </if>
+        <if test="(orderby == 'date2')||(orderby == null)||(orderby == '')">
+            order by a.date desc
+        </if>
+        <if test="orderby == 'comment1'">
+            order by a.commentSum
+        </if>
+        <if test="orderby == 'comment2'">
+            order by a.commentSum desc
+        </if>
+        <if test="orderby == 'top1'">
+            order by b.topSum
+        </if>
+        <if test="orderby == 'top2'">
+            order by b.topSum desc
+        </if>
+
+	</select>
+
+</mapper>

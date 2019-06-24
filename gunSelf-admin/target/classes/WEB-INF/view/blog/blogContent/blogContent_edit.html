@@ -1,0 +1,184 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="blogContentInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                              <#select id="topic" name="所属专题"  underline="true" selectVal="${blogTopics}" selectKey="topicName" selectValue="id" value="${item.topic}"/>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label " style="margin-right: 16px">标签</label>
+                                    <div class=" col-sm-8 tags" id="tags">
+                                        <input type="text" name="" id="inputTags" placeholder="回车生成标签" autocomplete="off">
+                                    </div>
+                                </div>
+                              <#input id="id" name="主键" value="${item.id}" readonly="readonly"/>
+                              <#input id="caption" name="标题" underline="true"   value="${item.caption}" />
+                              <#input id="auther" name="作者" underline="true"   value="${item.auther}" />
+                              <#input id="date" name="发表日期" underline="true" script="laydate.render({elem: '#date',type: 'datetime',trigger: 'click'});" dateTimeformat="yyyy-MM-dd HH:mm:ss"    value="${item.date}" readonly="readonly"/>
+                </div>
+
+                <div class="col-sm-6">
+                               <#textarea id="content" name="文章内容" underline="true"   value="${item.content}"  hidden="true" />
+
+                </div>
+            </div>
+            <div class="row">
+                <div style="padding: 5px 26px ;font-weight: 300">文章内容</div>
+                <div id="editor" style="padding: 0 25px ">
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogContentInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogContentInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/js/plugins/wangEditor/release/wangEditor.js"></script>
+<script>
+    /**
+     * 初始化博客内容详情对话框
+     */
+
+
+    var BlogContentInfoDlg = {
+        blogContentInfoData : {},
+        validateFields:{
+        }
+    };
+
+    /**
+     * 清除数据
+     */
+    BlogContentInfoDlg.clearData = function() {
+        this.blogContentInfoData = {};
+    }
+
+
+    BlogContentInfoDlg.set = function(key, val) {
+        this.blogContentInfoData[key] = (typeof val == "undefined") ? $("#" + key).val() : val;
+        return this;
+    }
+
+
+    BlogContentInfoDlg.get = function(key) {
+        return $("#" + key).val();
+    }
+
+    /**
+     * 关闭此对话框
+     */
+    BlogContentInfoDlg.close = function() {
+        parent.layer.close(window.parent.BlogContent.layerIndex);
+    }
+
+    /**
+     * 收集数据
+     */
+    BlogContentInfoDlg.collectData = function() {
+        this
+            .set('id')
+            .set('caption')
+            .set('auther')
+            .set('date')
+            .set('content')
+            .set('top')
+            .set('pv')
+            .set('topic');
+    };
+
+    var inputTags1 = new Array();
+    var inputTags2= null;
+    layui.config({
+        base: '/static/js/', 	}
+    ).use(['inputTags'],function(){
+
+        var inputTags = layui.inputTags;
+        inputTags2 = inputTags.render({
+            elem:'#inputTags',//定义输入框input对象
+            content: ${blogTags},//默认标签
+            aldaBtn: true,//是否开启获取所有数据的按钮
+            done: function(value){ //回车后的回调
+                console.log("触发回车回调");
+                console.log(value);
+                console.log(content);
+                //console.log(this.content);
+                inputTags1 = this.content;
+                console.log(inputTags1);
+            }
+        });
+        console.log("inputTags2",inputTags2);
+        console.log("inputTags2.config.content",inputTags2.config.content);
+        //回写到数组里面
+        @if(isNotEmpty(blogTags)){
+            inputTags1 = inputTags1.concat(${blogTags}) ;
+        @}
+    });
+
+
+
+    /**
+     * 提交修改
+     */
+    BlogContentInfoDlg.editSubmit = function() {
+
+        this.clearData();
+        this.collectData();
+        console.log("开始收集数据");
+        console.log("inputTags1",inputTags1);
+        console.log(this.blogContentInfoData);
+        var inputTags = layui.inputTags;
+
+
+
+        console.log(this.blogContentInfoData);
+
+        //提交信息
+        var ajax = new $ax(Feng.ctxPath + "/blogContent/update", function(data){
+            Feng.success("修改成功!");
+            window.parent.BlogContent.table.refresh();
+            BlogContentInfoDlg.close();
+        },function(data){
+            Feng.error("修改失败!" + data.responseJSON.message + "!");
+        });
+        ajax.set(this.blogContentInfoData);
+        console.log(inputTags2.config.content);
+        ajax.set("tags",inputTags2.config.content);
+        ajax.start();
+        //提交信息
+        // var ajax = new $ax(Feng.ctxPath + "/blogContent/update", function(data){
+        //     Feng.success("修改成功!");
+        //     window.parent.BlogContent.table.refresh();
+        //     BlogContentInfoDlg.close();
+        // },function(data){
+        //     Feng.error("修改失败!" + data.responseJSON.message + "!");
+        // });
+        // ajax.set(this.blogContentInfoData);
+        // ajax.start();
+    }
+
+    $(function() {
+        Feng.initValidator("blogContentInfoForm", BlogContentInfoDlg.validateFields)
+
+    });
+
+</script>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.uploadImgShowBase64 = true;  // 使用 base64 保存图片
+    // 或者 var editor = new E( document.getElementById('editor') )
+    var $content= $('#content');
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $content.val(html)
+    };
+    editor.customConfig.debug = true;
+    editor.create();
+    editor.txt.html('${item.content}');
+</script>
+@}

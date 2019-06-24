@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.InstockMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.Instock">
+        <id column="instockId" property="instockId" />
+        <result column="productId" property="productId" />
+        <result column="userId" property="userId" />
+        <result column="description" property="description" />
+        <result column="instockNum" property="instockNum" />
+        <result column="instockTime" property="instockTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        instockId, productId, userId, description, instockNum, instockTime
+    </sql>
+
+</mapper>

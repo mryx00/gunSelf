@@ -1,0 +1,23 @@
+<div class="layui-side layui-bg-cyan">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            @for(title in titles){
+            @if(tool.isEmpty(title.children)){
+            <li class="layui-nav-item"><a class="layTabPlus" href="javascript:;"  tab_url="${ctxPath}${title.url}">${title.name}</a></li>
+            @}else{
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;">${title.name}</a>
+                <dl class="layui-nav-child">
+            @for(subTitle in title.children){
+                @if(tool.isEmpty(subTitle.children)){
+                   <dd><a class="layTabPlus" href="javascript:;" tab_url="${ctxPath}${subTitle.url}">${subTitle.name}</a></dd>
+                @}
+                    @}
+                </dl>
+            </li>
+                @}
+            @}
+        </ul>
+    </div>
+</div>

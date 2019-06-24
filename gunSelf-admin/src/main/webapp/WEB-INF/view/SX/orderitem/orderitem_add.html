@@ -1,0 +1,29 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="orderitemInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#select id="customerNo" name="客户姓名"  underline="true" selectVal="${customers}" selectKey="customerName" selectValue="customerNo"/>
+                             <#select id="employeeNo" name="下单员工"  underline="true" selectVal="${users}" selectKey="name" selectValue="id"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="orderTime" name="下单时间" underline="true" script="laydate.render({elem: '#orderTime',type: 'datetime'});" dateTimeformat="yyyy-MM-dd HH:mm:ss" />
+                            <#select id="orderState" name="订单状态" dictName="订单状态" underline="true" value="97"/>
+                            <#input id="protectNumber" name="产品数量" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="OrderitemInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="OrderitemInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/orderitem/orderitem_info.js"></script>
+@}

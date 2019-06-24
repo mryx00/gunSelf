@@ -1,0 +1,32 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="instockInfoForm">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="row">
+                    <div class="col-sm-6 b-r">
+                        <#input id="instockId" name="编号" value="${item.instockId}" readonly="readonly"/>
+                        <#select id="productId" name="产品名称" underline="true"   value="${item.productId}" selectVal="${products}" selectKey="productName" selectValue="productNo" />
+                        <#select id="userId" name="入库申请人"  underline="true"   value="${item.userId}"   selectVal="${users}" selectKey="name" selectValue="id"  />
+                    </div>
+
+                    <div class="col-sm-6">
+                        <#textarea id="description" name="入库备注" underline="true"   value="${item.description}" />
+                        <#input id="instockNum" name="入库数量" underline="true"   value="${item.instockNum} " readonly="readonly" />
+                        <#input id="instockTime" name="入库时间" underline="true" script="laydate.render({elem: '#instockTime',type: 'datetime'});"  value="${item.instockTime}" dateTimeformat="yyyy-MM-dd HH:mm:ss"/>
+                    </div>
+                </div>
+
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10">
+                        <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="InstockInfoDlg.editSubmit()"/>
+                        <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="InstockInfoDlg.close()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/SX/instock/instock_info.js"></script>
+@}

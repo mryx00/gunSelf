@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.HrArchiveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.HrArchive">
+        <id column="ARCHIVE_ID" property="archiveId" />
+        <result column="SCHEMA_ID" property="schemaId" />
+        <result column="STAFF_ID" property="staffId" />
+        <result column="EMPLOYEE_NO" property="employeeNo" />
+        <result column="NAME" property="name" />
+        <result column="SEX" property="sex" />
+        <result column="DEPARTMENT_ID" property="departmentId" />
+        <result column="POSITION" property="position" />
+        <result column="POSITION_RANK" property="positionRank" />
+        <result column="POSITION_GRADE" property="positionGrade" />
+        <result column="EXECUTIVE_LEVEL" property="executiveLevel" />
+        <result column="BIRTH_DATE" property="birthDate" />
+        <result column="AGE" property="age" />
+        <result column="ID_CARD" property="idCard" />
+        <result column="ORIGO" property="origo" />
+        <result column="RESIDENCE_REGISTRATION" property="residenceRegistration" />
+        <result column="NATIONALITY" property="nationality" />
+        <result column="POLITICAL_STATUS" property="politicalStatus" />
+        <result column="MARRIAGE_STATUS" property="marriageStatus" />
+        <result column="GRADUATE_SCHOOL" property="graduateSchool" />
+        <result column="IDCARD_EXPIRY_DATE" property="idcardExpiryDate" />
+        <result column="SPECIALTY" property="specialty" />
+        <result column="EDU_QUALIFICATION" property="eduQualification" />
+        <result column="EDU_DEGREE" property="eduDegree" />
+        <result column="FOREIGN_LANGUAGE_LEVEL" property="foreignLanguageLevel" />
+        <result column="EMAIL" property="email" />
+        <result column="HOME_ADDRESS" property="homeAddress" />
+        <result column="MOBILE" property="mobile" />
+        <result column="EMPLOYMENT_TYPE" property="employmentType" />
+        <result column="ENTRY_DATE" property="entryDate" />
+        <result column="REGULAR_DATE" property="regularDate" />
+        <result column="EDU_EXPERIENCE" property="eduExperience" />
+        <result column="RESUME" property="resume" />
+        <result column="ARCHIVE_STATUS" property="archiveStatus" />
+        <result column="LEAVE_TYPE" property="leaveType" />
+        <result column="LEAVE_DATE" property="leaveDate" />
+        <result column="LEAVE_REASON" property="leaveReason" />
+        <result column="IS_DEL" property="isDel" />
+        <result column="DEL_TIME" property="delTime" />
+        <result column="DEL_OPERATOR" property="delOperator" />
+        <result column="OPERATOR" property="operator" />
+        <result column="OPERATE_TIME" property="operateTime" />
+        <result column="DOMAIN_ID" property="domainId" />
+        <result column="DESC_CNT" property="descCnt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ARCHIVE_ID AS archiveId, SCHEMA_ID AS schemaId, STAFF_ID AS staffId, EMPLOYEE_NO AS employeeNo, NAME AS name, SEX AS sex, DEPARTMENT_ID AS departmentId, POSITION AS position, POSITION_RANK AS positionRank, POSITION_GRADE AS positionGrade, EXECUTIVE_LEVEL AS executiveLevel, BIRTH_DATE AS birthDate, AGE AS age, ID_CARD AS idCard, ORIGO AS origo, RESIDENCE_REGISTRATION AS residenceRegistration, NATIONALITY AS nationality, POLITICAL_STATUS AS politicalStatus, MARRIAGE_STATUS AS marriageStatus, GRADUATE_SCHOOL AS graduateSchool, IDCARD_EXPIRY_DATE AS idcardExpiryDate, SPECIALTY AS specialty, EDU_QUALIFICATION AS eduQualification, EDU_DEGREE AS eduDegree, FOREIGN_LANGUAGE_LEVEL AS foreignLanguageLevel, EMAIL AS email, HOME_ADDRESS AS homeAddress, MOBILE AS mobile, EMPLOYMENT_TYPE AS employmentType, ENTRY_DATE AS entryDate, REGULAR_DATE AS regularDate, EDU_EXPERIENCE AS eduExperience, RESUME AS resume, ARCHIVE_STATUS AS archiveStatus, LEAVE_TYPE AS leaveType, LEAVE_DATE AS leaveDate, LEAVE_REASON AS leaveReason, IS_DEL AS isDel, DEL_TIME AS delTime, DEL_OPERATOR AS delOperator, OPERATOR AS operator, OPERATE_TIME AS operateTime, DOMAIN_ID AS domainId, DESC_CNT AS descCnt
+    </sql>
+
+</mapper>

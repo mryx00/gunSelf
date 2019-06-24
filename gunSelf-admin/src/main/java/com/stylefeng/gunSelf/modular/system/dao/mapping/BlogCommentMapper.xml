@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.gunSelf.modular.system.dao.BlogCommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.gunSelf.modular.system.model.BlogComment">
+        <id column="id" property="id" />
+        <result column="articleId" property="articleId" />
+        <result column="ctPersonId" property="ctPersonId" />
+        <result column="ctContent" property="ctContent" />
+        <result column="ctDate" property="ctDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, articleId, ctPersonId, ctContent, ctDate
+    </sql>
+
+    <select id="listComment" resultType="com.stylefeng.gunSelf.modular.blog.vo.BlogCommentInfo">
+		select blog_comment.id as id ,articleId,ctPersonId, ctContent,sys_user.name as ctPersonName,sys_user.avatar as ctPersonAvatar,ctDate,COUNT(comment_top.id) as topCount
+		from blog_comment INNER JOIN sys_user ON blog_comment.ctPersonId = sys_user.id
+        <if test="id!=-1">
+            and blog_comment.articleId = #{id}
+        </if>
+        LEFT JOIN comment_top on blog_comment.id = comment_top.commentId
+        GROUP BY blog_comment.id
+        <if test="orderby =='date2'||orderby == null||orderby ==''">
+            order by ctDate Desc
+        </if>
+        <if test="orderby == 'date1'">
+            order by ctDate
+        </if>
+        <if test="orderby == 'top1'">
+            order by COUNT(comment_top.id)
+        </if>
+        <if test="orderby == 'top2'">
+            order by COUNT(comment_top.id) Desc
+        </if>
+
+
+		limit #{current},#{size}
+	</select>
+    <select id="selectCommentList" resultType="com.stylefeng.gunSelf.modular.blog.vo.BlogCommentInfo">
+        SELECT
+            blog_comment.id,
+            articleId,
+            ctPersonId,
+            ctContent,
+            ctDate,
+            caption,
+            account,
+            name as ctPersonName,
+            avatar as ctPersonAvatar
+        FROM
+            blog_comment
+        LEFT JOIN blog_content ON blog_comment.articleId = blog_content.id
+        LEFT JOIN sys_user ON blog_comment.ctPersonId = sys_user.id
+        <if test="account!=null and account!=''">
+            WHERE blog_content.auther=#{account}
+        </if>
+        <if test="title!=null and title!=''">
+            and blog_content.caption like CONCAT('%',#{title},'%')
+        </if>
+        ORDER BY
+        ctDate DESC
+    </select>
+
+</mapper>

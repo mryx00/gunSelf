@@ -1,0 +1,56 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal layui-form" id="blogContentInfoForm">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#select id="topic" name="所属专题"  underline="true" selectVal="${blogTopics}" selectKey="topicName" selectValue="id"/>
+                            <#input id="caption" name="标题" underline="true" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label " style="margin-right: 16px">标签</label>
+                                <div class=" col-sm-8 tags" id="tags">
+                                    <input type="text" name="" id="inputTags" placeholder="回车生成标签" autocomplete="off">
+                                </div>
+                            </div>
+                            <#input id="auther" name="作者" underline="true" value="${auther}"/>
+                            <#input id="date" name="发表日期" underline="true" script="laydate.render({elem: '#date',type: 'datetime',trigger: 'click' });" dateTimeformat="yyyy-MM-dd HH:mm:ss" />
+                            <#textarea id="content" name="文章内容" underline="true" hidden="true"/>
+                            <!--<#input id="top" name="点赞" underline="true"/>-->
+                            <!--<#input id="pv" name="访问量" underline="true"/>-->
+                </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div style="padding: 5px 26px;font-weight: 300 ">内容</div>
+                <div id="editor" style="padding: 0 25px ;">
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BlogContentInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BlogContentInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/js/plugins/wangEditor/release/wangEditor.js"></script>
+<script src="${ctxPath}/static/modular/blog/blogContent/blogContent_info.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+    var $content= $('#content');
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $content.val(html);
+    };
+    editor.create();
+
+
+</script>
+@}
