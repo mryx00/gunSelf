@@ -10,7 +10,7 @@
 ----
 工作流配置界面1：![](https://github.com/mryx00/imgs/blob/master/liucheng.png "工作流配置界面")
 工作流配置界面2![](https://github.com/mryx00/imgs/blob/master/liucheng2.png "工作流配置界面")
-代码生成配置界面：![](https://github.com/mryx00/imgs/blob/master/lshengcheng.png "代码生成配置")
+代码生成配置界面：![](https://github.com/mryx00/imgs/blob/master/shengcheng.png "代码生成配置")
 
 角色界面：![](https://github.com/mryx00/imgs/blob/master/juese.png "角色界面")
 部门界面：![](https://github.com/mryx00/imgs/blob/master/bumen.png "部门界面")
